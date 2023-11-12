@@ -17,6 +17,7 @@ interface SmallScreenProps {
   offset: number;
   dbUser: DBUser;
   profile: ExecutorProfileDocument;
+  user: any;
 }
 
 function SmallScreen({
@@ -25,6 +26,7 @@ function SmallScreen({
   offset,
   dbUser,
   profile,
+  user,
 }: SmallScreenProps) {
   const pathname = usePathname();
 
@@ -46,7 +48,7 @@ function SmallScreen({
       <Link href="/">
         <span>Urgent2k</span>
       </Link>
-      {dbUser ? (
+      {user ? (
         <div onClick={handleUserMenu} className="relative">
           <Image
             src={`${profile ? profile.image : "/no-profile-icon.png"}`}
@@ -69,9 +71,9 @@ function SmallScreen({
                   height={60}
                   className="rounded-full w-[37px] h-[37px] object-cover place-self-center"
                 />
-                <p className="font-semibold text-base">{dbUser.name}</p>
+                <p className="font-semibold text-base">{dbUser?.name}</p>
                 <small className="text-sm font-normal place-self-center">
-                  {dbUser.role}
+                  {dbUser?.role}
                 </small>
               </div>
               <LogoutLink>

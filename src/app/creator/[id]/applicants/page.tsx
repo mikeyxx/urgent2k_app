@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { FaFolderOpen } from "react-icons/fa";
 import { redirect, useParams, usePathname, useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+
 import { ProposalProps } from "@/utils/lib";
 import Link from "next/link";
 import StarRating from "@/utils/StarRating";
@@ -27,15 +27,15 @@ function Proposals() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [executorId, setExecutorId] = useState<string | null>(null);
-  const { user, getUser } = useUtilsContext();
+  const { dbUser, getDBUser } = useUtilsContext();
   const router = useRouter();
 
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      redirect(`/?callbackUrl=/creator/${params.id}/applicants`);
-    },
-  });
+  // const { data: session } = useSession({
+  //   required: true,
+  //   onUnauthenticated() {
+  //     redirect(`/?callbackUrl=/creator/${params.id}/applicants`);
+  //   },
+  // });
 
   useEffect(() => {
     const fetchProposal = async () => {
@@ -79,9 +79,9 @@ function Proposals() {
 
   useEffect(() => {
     if (userId) {
-      getUser(userId);
+      getDBUser(userId);
     }
-  }, [userId, getUser]);
+  }, [userId, getDBUser]);
 
   async function startConversation(
     senderId: string | undefined,

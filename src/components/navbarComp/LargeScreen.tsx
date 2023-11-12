@@ -111,7 +111,7 @@ function LargeScreen({
                   className="rounded-full w-[37px] h-[37px] object-cover place-self-center"
                 />
                 <p className="font-semibold text-base">{user.given_name}</p>
-                <small className="text-sm font-normal">{dbUser.role}</small>
+                <small className="text-sm font-normal">{dbUser?.role}</small>
               </div>
 
               <LogoutLink>

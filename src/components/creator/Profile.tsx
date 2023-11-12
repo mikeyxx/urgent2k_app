@@ -6,20 +6,20 @@ import { PiSuitcaseSimpleLight } from "react-icons/pi";
 import { MdLocationPin, MdModeEditOutline } from "react-icons/md";
 import Link from "next/link";
 import StarRating from "@/utils/StarRating";
-import { useSession } from "next-auth/react";
 import { usePathname, useParams } from "next/navigation";
 import { useUtilsContext } from "@/context/UtilsContext";
 
-function Profile() {
-  const { data: session } = useSession();
+function Profile({ user }: { user: any }) {
   const pathname = usePathname();
   const params = useParams();
-  const { getUser, user } = useUtilsContext();
+  const { getDBUser, dbUser, userProfile, getUserProfile } = useUtilsContext();
 
   if (pathname === `/view/creator/${params.id}/profile`) {
-    getUser(params.id);
+    getDBUser(params.id);
+    getUserProfile(params.id);
   } else {
-    getUser(session?.user.id);
+    getDBUser(user.id);
+    getUserProfile(user.id);
   }
 
   return (
@@ -28,7 +28,7 @@ function Profile() {
         <div className="border-b-2 w-full flex-center flex-col gap-3 pb-3">
           <div className="relative">
             <Image
-              src={user?.image ?? "/no-profile-icon.png"}
+              src={userProfile?.image ?? "/no-profile-icon.png"}
               alt="profile picture"
               width={100}
               height={100}
@@ -38,7 +38,7 @@ function Profile() {
               <MdModeEditOutline />
             </button>
           </div>
-          <p>{user?.name}</p>
+          <p>{dbUser?.name}</p>
 
           <StarRating />
 
@@ -62,10 +62,10 @@ function Profile() {
         </div>
         <div className="w-full text-center pb-3 mt-8">
           <h4>Average hourly rate paid</h4>
-          <small className="text-primary">₦300</small>
+          <small className="text-primary">₦0</small>
         </div>
 
-        {session?.user.role === "executor" && (
+        {dbUser?.role === "executor" && (
           <Link
             className="bg-primary text-white px-4 py-2 rounded-lg shadow-md text-center mt-2"
             href="/messages"

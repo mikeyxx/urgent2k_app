@@ -60,7 +60,7 @@ async function Welcome() {
             </p>
 
             <Link
-              href="/creator/create-task/new"
+              href={`/creator/create-task/new?id=${user?.id}`}
               className="bg-primary text-white py-3 lg:py-1 px-5 lg:px-8 rounded-xl w-[180px] lg:w-fit lg:text-xl"
             >
               Get Started

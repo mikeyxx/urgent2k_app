@@ -1,6 +1,6 @@
-export async function getDBUser(executorData: string | undefined) {
+export async function getDBUser(userId: string | undefined) {
   try {
-    const res = await fetch(`http://localhost:3000/api/user/${executorData}`);
+    const res = await fetch(`http://localhost:3000/api/user/${userId}`);
 
     if (!res.ok) {
       if (res.status === 404) {
@@ -19,11 +19,9 @@ export async function getDBUser(executorData: string | undefined) {
   }
 }
 
-export async function getUserProfile(executorData: string | undefined) {
+export async function getUserProfile(userId: string | undefined) {
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/profile/${executorData}`
-    );
+    const res = await fetch(`http://localhost:3000/api/profile/${userId}`);
     if (!res.ok) {
       if (res.status === 404) {
         // Handle the case where the user is not found
@@ -44,18 +42,6 @@ export async function getUserProfile(executorData: string | undefined) {
 export async function getTasks(id: string | undefined) {
   try {
     const res = await fetch(`http://localhost:3000/api/getTask/${id}`);
-    if (!res.ok) {
-      if (res.status === 404) {
-        console.warn("Task not found in the database");
-        return null;
-      } else {
-        const errorMessage = await res.text();
-        console.error(
-          `Failed to fetch tasks data: ${res.status} - ${errorMessage}`
-        );
-        throw new Error(`Failed to fetch tasks data: ${res.status}`);
-      }
-    }
 
     return res.json();
   } catch (error) {

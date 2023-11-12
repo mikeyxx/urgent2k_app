@@ -75,7 +75,7 @@ interface Address {
   street: string;
 }
 
-export interface ExecutorProfileDocument {
+export interface ProfileDocument {
   _id: string;
   image: string;
   title: string;
@@ -100,4 +100,6 @@ export interface DBUser {
   name: string;
   email: string;
   role: string;
+  createdAt: Date;
+  updatedAt: Date;
 }

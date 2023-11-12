@@ -15,11 +15,11 @@ import {
 } from "react-icons/bs";
 import { HiOutlineClock } from "react-icons/hi";
 import { format, formatDistance, parse } from "date-fns";
-import { useSession } from "next-auth/react";
+
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { ExecutorProfileDocument } from "@/utils/executor";
+import { ExecutorProfileDocument } from "@/utils/lib";
 
 interface TasksProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,7 +28,6 @@ interface TasksProps {
 }
 
 function TaskDetails({ open, setOpen, singleTask }: TasksProps) {
-  const { data: session } = useSession();
   const [user, setUser] = useState<ExecutorProfileDocument | null>(null);
   const [creatorTaskInfo, setCreatorTaskInfo] = useState<
     TaskDetailsProps[] | null

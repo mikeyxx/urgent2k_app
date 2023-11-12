@@ -18,6 +18,7 @@ interface MediumScreenProps {
   setUserMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
   dbUser: DBUser;
   profile: ExecutorProfileDocument;
+  user: any;
 }
 
 function MediumScreen({
@@ -28,6 +29,7 @@ function MediumScreen({
   setUserMenuOpen,
   dbUser,
   profile,
+  user,
 }: MediumScreenProps) {
   const pathname = usePathname();
 
@@ -35,8 +37,6 @@ function MediumScreen({
     setUserMenuOpen((prev) => !prev);
     setOpen(false);
   };
-
-  const session = true;
 
   return (
     <div className="justify-between items-center w-full md:max-xl:flex hidden h-full">
@@ -49,7 +49,7 @@ function MediumScreen({
           <span className="text-xl">Urgent2k</span>
         </Link>
       </div>
-      {dbUser ? (
+      {user ? (
         <div onClick={handleUserMenu} className="relative">
           <Image
             src={`${profile ? profile.image : "/no-profile-icon.png"}`}
@@ -69,9 +69,9 @@ function MediumScreen({
                   height={60}
                   className="rounded-full w-[37px] h-[37px] object-cover place-self-center"
                 />
-                <p className="font-semibold text-base">role</p>
+                <p className="font-semibold text-base">{dbUser?.name}</p>
                 <small className="text-sm font-normal place-self-center">
-                  role
+                  {dbUser?.role}
                 </small>
               </div>
               <div className="flex items-center font-medium text-base gap-3 mt-10 cursor-pointer">

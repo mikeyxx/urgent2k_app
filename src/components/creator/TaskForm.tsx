@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-
+import { useRouter, useSearchParams } from "next/navigation";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { storage } from "@/firebase";
 import toast, { Toaster } from "react-hot-toast";
 import { ImAttachment } from "react-icons/im";
 import { FiImage } from "react-icons/fi";
-import { DBUser } from "@/utils/lib";
 
-function TaskForm({ dbUser }: { dbUser: DBUser }) {
+function TaskForm() {
   const [loading, setLoading] = useState(false);
   const [img, setImg] = useState<string | null>(null);
   const [docFile, setDocFile] = useState<File | null>(null);
@@ -27,8 +27,8 @@ function TaskForm({ dbUser }: { dbUser: DBUser }) {
     duration: "Less than one month",
     timeRequirement: "",
   });
-
-  console.log(dbUser);
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("id");
 
   const router = useRouter();
 
@@ -134,35 +134,45 @@ function TaskForm({ dbUser }: { dbUser: DBUser }) {
     }
   };
 
+  const uploadFileToFirebase = async (file: File) => {
+    const storageRef = ref(storage, `task-attachment/${filename}`);
+    await uploadBytes(storageRef, file);
+    const downloadUrl = await getDownloadURL(storageRef);
+    return downloadUrl;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const response = await fetch("/api/create-task", {
-        method: "POST",
-        body: JSON.stringify({
-          title: task.title,
-          description: task.description,
-          img: img,
-          docFile: docFile,
-          filename: filename,
-          categories: categoriesArray,
-          skills: skillsArray,
-          budget: task.budget,
-          experience: task.experience,
-          pricing: task.pricing,
-          payRate: task.payRate,
-          duration: task.duration,
-          timeRequirement: task.timeRequirement,
-          creatorId: dbUser._id,
-        }),
-      });
+      if (docFile) {
+        const downloadUrl = await uploadFileToFirebase(docFile);
+        const response = await fetch("/api/create-task", {
+          method: "POST",
+          body: JSON.stringify({
+            title: task.title,
+            description: task.description,
+            img: img,
+            docFile: downloadUrl,
+            filename: filename,
+            categories: categoriesArray,
+            skills: skillsArray,
+            budget: task.budget,
+            experience: task.experience,
+            pricing: task.pricing,
+            payRate: task.payRate,
+            duration: task.duration,
+            timeRequirement: task.timeRequirement,
+            creatorId: userId,
+          }),
+        });
 
-      toast.success("Your new task has been created");
+        toast.success("Your new task has been created");
 
-      if (response.ok) {
-        router.push("/creator/active-tasks");
+        if (response.ok) {
+          router.push("/creator/active-tasks");
+        }
       }
     } catch (error) {
       console.error(error);
@@ -176,7 +186,7 @@ function TaskForm({ dbUser }: { dbUser: DBUser }) {
       <h3 className="text-xl lg:text-2xl font-bold">Task Details</h3>
 
       <div className="border-2 mt-10 rounded-xl mb-7 px-4 py-8">
-        <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+        <div className="flex flex-col gap-8">
           <div>
             <label htmlFor="title">Title</label>
             <input
@@ -424,12 +434,13 @@ function TaskForm({ dbUser }: { dbUser: DBUser }) {
           ) : (
             <button
               type="submit"
+              onClick={handleSubmit}
               className="bg-primary rounded-2xl place-self-end text-white py-1 px-6 lg:text-lg"
             >
               Post this task
             </button>
           )}
-        </form>
+        </div>
       </div>
       <Toaster position="top-center" reverseOrder={false} />
     </article>

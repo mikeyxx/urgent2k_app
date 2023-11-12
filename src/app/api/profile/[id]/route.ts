@@ -1,8 +1,9 @@
 import connectDB from "@/utils/db";
 import Profile from "@/models/profile";
+import { NextRequest } from "next/server";
 
 export const GET = async (
-  request: Request,
+  request: NextRequest,
   { params }: { params: { id: string } }
 ) => {
   try {
@@ -19,6 +20,7 @@ export const GET = async (
       status: 200,
     });
   } catch (error) {
+    console.log(error);
     return new Response("Failed to fetch user profile", { status: 400 });
   }
 };

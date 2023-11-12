@@ -41,6 +41,7 @@ function Index({ dbUser, profile, user }: NavbarProps) {
             offset={offset}
             dbUser={dbUser}
             profile={profile}
+            user={user}
           />
           {/* For medium screens */}
           <MediumScreen
@@ -51,6 +52,7 @@ function Index({ dbUser, profile, user }: NavbarProps) {
             setUserMenuOpen={setUserMenuOpen}
             dbUser={dbUser}
             profile={profile}
+            user={user}
           />
           {/* For large screens */}
           <LargeScreen

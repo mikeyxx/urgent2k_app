@@ -11,7 +11,7 @@ export const GET = async (
 
     const user = await User.findById(params.id);
     if (!user)
-      return new Response("user has not been created", {
+      return new Response("User has not been created", {
         status: 404,
       });
 
