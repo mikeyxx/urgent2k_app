@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,300;1,400;1,700&family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@500;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body {
+  font-family: "Roboto", "sans-serif";
+}
+
+.homeSvg {
+  background-image: url("/mobile_search_green.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: "green";
+  color: green;
+}
+
+.menu-btn {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  width: 30px;
+  height: 30px;
+  transition: all 0.5s ease-in-out;
+}
+
+.menu-btn__burger {
+  width: 30px;
+  height: 2px;
+  background-color: #000;
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+}
+.menu-btn__burger::before,
+.menu-btn__burger::after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 2px;
+  background-color: #000;
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+}
+
+.menu-btn__burger::before {
+  transform: translateY(-9px);
+}
+.menu-btn__burger::after {
+  transform: translateY(9px);
+}
+
+/* ANIMATION */
+.menu-btn.open .menu-btn__burger {
+  transform: translateX(-50px);
+  background: transparent;
+}
+.menu-btn.open .menu-btn__burger::before {
+  transform: rotate(45deg) translate(35px, -35px);
+}
+.menu-btn.open .menu-btn__burger::after {
+  transform: rotate(-45deg) translate(35px, 35px);
+}
+.menu-btn__burger-white {
+  width: 30px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+}
+.menu-btn__burger-white::before,
+.menu-btn__burger-white::after {
+  content: "";
+  position: absolute;
+  width: 30px;
+  height: 2px;
+  background-color: #fff;
+  border-radius: 5px;
+  transition: all 0.5s ease-in-out;
+}
+
+.menu-btn__burger-white::before {
+  transform: translateY(-9px);
+}
+.menu-btn__burger-white::after {
+  transform: translateY(9px);
+}
+
+/* ANIMATION */
+.menu-btn.open .menu-btn__burger-white {
+  transform: translateX(-50px);
+  background: transparent;
+}
+.menu-btn.open .menu-btn__burger-white::before {
+  transform: rotate(45deg) translate(35px, -35px);
+}
+.menu-btn.open .menu-btn__burger-white::after {
+  transform: rotate(-45deg) translate(35px, 35px);
+}
+
+input[type="checkbox"].checked {
+  background-color: #00bfa6;
+  position: relative;
+}
+
+input[type="checkbox"].checked::before {
+  content: "✓";
+  font-size: 1em;
+  color: #fff;
+  position: absolute;
+  right: 3px;
+  top: 2px;
+}
+
+input[type="radio"].checked {
+  background-color: #00bfa6;
+  position: relative;
+}
+
+.flex-center {
+  @apply flex justify-center items-center;
+}
+
+.flex-start {
+  @apply flex justify-start items-start;
+}
+
+.flex-end {
+  @apply flex justify-end items-center;
+}
+
+.flex-between {
+  @apply flex justify-between items-center;
+}
