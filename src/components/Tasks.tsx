@@ -60,12 +60,14 @@ function Tasks() {
               <h3 className="font-semibold text-lg">{task.title}</h3>
               <small>Posted {calculateTimePosted(task.createdAt)}</small>
             </div>
-            {task.docFile ||
-              (task.img && (
-                <span className="lg:mr-[50px]" title="Contains attachment">
-                  <ImAttachment />
-                </span>
-              ))}
+
+            {task.docFile || task.img ? (
+              <span className="lg:mr-[50px]" title="Contains attachment">
+                <ImAttachment />
+              </span>
+            ) : (
+              ""
+            )}
           </div>
           <div className="flex flex-col md:flex-row gap-1 text-gray-500">
             <small>{task.pricing}</small>

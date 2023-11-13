@@ -2,6 +2,7 @@
 
 import { TaskDetailsProps } from "@/utils/lib";
 import React, { useEffect, useMemo, useState } from "react";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { IoIosArrowForward } from "react-icons/io";
 import { AiFillTag } from "react-icons/ai";
 import { IoMdClock } from "react-icons/io";
@@ -15,7 +16,6 @@ import {
 } from "react-icons/bs";
 import { HiOutlineClock } from "react-icons/hi";
 import { format, formatDistance, parse } from "date-fns";
-
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -28,7 +28,10 @@ interface TasksProps {
 }
 
 function TaskDetails({ open, setOpen, singleTask }: TasksProps) {
-  const [user, setUser] = useState<ExecutorProfileDocument | null>(null);
+  const { user, isLoading } = useKindeBrowserClient();
+  const [executor, setExecutor] = useState<ExecutorProfileDocument[] | null>(
+    null
+  );
   const [creatorTaskInfo, setCreatorTaskInfo] = useState<
     TaskDetailsProps[] | null
   >(null);
@@ -42,9 +45,11 @@ function TaskDetails({ open, setOpen, singleTask }: TasksProps) {
   useEffect(() => {
     const getUser = async () => {
       try {
-        const res = await fetch(`/api/getProfileInfo/${singleTask?.creatorId}`);
+        const res = await fetch(
+          `/api/executorProfile/${singleTask?.creatorId}`
+        );
         const data = await res.json();
-        setUser(data);
+        setExecutor(data);
       } catch (error) {
         console.error(error);
       }
@@ -80,7 +85,7 @@ function TaskDetails({ open, setOpen, singleTask }: TasksProps) {
     document.body.style.overflow = "auto"; // Re-enable scrolling
     setOpen(false);
     router.push(
-      `/proposal/task/?taskId=${singleTask?._id}&executorId=${session?.user.id}`
+      `/proposal/task/?taskId=${singleTask?._id}&executorId=${user?.id}`
     );
   };
 
@@ -296,7 +301,7 @@ function TaskDetails({ open, setOpen, singleTask }: TasksProps) {
                 <div>
                   <p>Nigeria</p>
                   <span className="text-gray-500">
-                    {user?.address?.city} {getCurrentTimeWithAMPM}
+                    {executor?.[0]?.address?.city} {getCurrentTimeWithAMPM}
                   </span>
                 </div>
                 <div>
@@ -314,7 +319,7 @@ function TaskDetails({ open, setOpen, singleTask }: TasksProps) {
                 </div>
               </div>
             </div>
-            {session ? (
+            {user ? (
               <div className="w-full flex items-center justify-center font-roboto">
                 <button
                   className="text-white bg-primary rounded-lg py-2 px-7 w-full text-center text-2xl shadow-2xl"

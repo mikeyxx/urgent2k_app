@@ -9,8 +9,8 @@ export const GET = async (
   try {
     await connectDB();
 
-    const profile = await Profile.find({ userId: params.id })
-      .populate("userId")
+    const profile = await Profile.find({ executorId: params.id })
+      .populate("executorId")
       .exec();
 
     if (!profile)

@@ -12,14 +12,14 @@ async function Page() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  const data: ExecutorProfileDocument = await getExecutorProfile(user?.id);
+  const data: ExecutorProfileDocument[] = await getExecutorProfile(user?.id);
 
   if (!user) {
     redirect("/api/auth/login?post_login_redirect_url=/executor/feed");
   }
 
-  if (!data.bio) {
-    redirect("/executor/update-profile");
+  if (data.length === 0) {
+    redirect("/executor/profile/create");
   }
 
   return (

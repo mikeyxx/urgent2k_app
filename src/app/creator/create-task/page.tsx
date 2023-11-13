@@ -5,7 +5,7 @@ import { getTasks, getCreatorProfile } from "@/api";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { CreatorProfileDocument } from "@/utils/lib";
 
-async function Creator() {
+async function Page() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   const profile =
@@ -35,4 +35,4 @@ async function Creator() {
   );
 }
 
-export default Creator;
+export default Page;

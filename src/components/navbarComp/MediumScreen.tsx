@@ -56,11 +56,11 @@ function MediumScreen({
         </Link>
       </div>
       {user ? (
-        dbUser.role === "executor" ? (
+        dbUser?.role === "executor" ? (
           <div onClick={handleUserMenu} className="relative">
             <Image
               src={`${
-                executorProfile[0]?.image ||
+                executorProfile?.[0]?.image ||
                 user?.picture ||
                 "/no-profile-icon.png"
               }`}
@@ -75,7 +75,7 @@ function MediumScreen({
                 <div className="flex flex-col">
                   <Image
                     src={`${
-                      executorProfile[0]?.image ||
+                      executorProfile?.[0]?.image ||
                       user?.picture ||
                       "/no-profile-icon.png"
                     }`}
@@ -100,7 +100,7 @@ function MediumScreen({
           <div onClick={handleUserMenu} className="relative">
             <Image
               src={`${
-                creatorProfile[0]?.image ||
+                creatorProfile?.[0]?.image ||
                 user.picture ||
                 "/no-profile-icon.png"
               }`}
@@ -115,7 +115,7 @@ function MediumScreen({
                 <div className="flex flex-col">
                   <Image
                     src={`${
-                      creatorProfile[0]?.image ||
+                      creatorProfile?.[0]?.image ||
                       user.picture ||
                       "/no-profile-icon.png"
                     }`}

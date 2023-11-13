@@ -21,22 +21,8 @@ export type UtilityContext = {
   screenSize: number;
   inputDivStyle: number;
   setInputDivStyle: Dispatch<SetStateAction<number>>;
-  dbUser: DBUser | null;
-  setDBUser: Dispatch<SetStateAction<DBUser | null>>;
-  getDBUser: (id: string | undefined | string[]) => void;
-  sentProposals: string[] | null;
-  setSentProposal: Dispatch<SetStateAction<string[] | null>>;
-  getSentProposals: (id: string | undefined | string[]) => void;
-  acceptedProposal: ProposalProps[] | null;
-  setAcceptedProposal: Dispatch<SetStateAction<ProposalProps[] | null>>;
-  getAcceptedProposal: (id: string | undefined | string[]) => void;
   editedState: ExecutorProfileDocument | null;
   setEditedState: Dispatch<SetStateAction<ExecutorProfileDocument | null>>;
-  executorProfile: ExecutorProfileDocument[] | null;
-  setExecutorProfile: Dispatch<
-    SetStateAction<ExecutorProfileDocument[] | null>
-  >;
-  getExecutorProfile: (id: string | undefined | string[]) => void;
   creatorProfile: CreatorProfileDocument[] | null;
   setCreatorProfile: Dispatch<SetStateAction<CreatorProfileDocument[] | null>>;
   getCreatorProfile: (id: string | undefined | string[]) => void;
@@ -55,19 +41,11 @@ export default function UtilsContextProvider({
     typeof window !== "undefined" ? window.innerWidth : 0
   );
   const [inputDivStyle, setInputDivStyle] = useState(0);
-  const [dbUser, setDBUser] = useState<DBUser | null>(null);
-  const [executorProfile, setExecutorProfile] = useState<
-    ExecutorProfileDocument[] | null
-  >(null);
+  const [editedState, setEditedState] =
+    useState<ExecutorProfileDocument | null>(null);
   const [creatorProfile, setCreatorProfile] = useState<
     CreatorProfileDocument[] | null
   >(null);
-  const [sentProposals, setSentProposal] = useState<string[] | null>(null);
-  const [acceptedProposal, setAcceptedProposal] = useState<
-    ProposalProps[] | null
-  >(null);
-  const [editedState, setEditedState] =
-    useState<ExecutorProfileDocument | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -81,30 +59,30 @@ export default function UtilsContextProvider({
     };
   }, [screenSize]);
 
-  const getDBUser = useCallback(async (id: string | undefined | string[]) => {
-    try {
-      const res = await fetch(`http://localhost:3000/api/user/${id}`);
-      const data = await res.json();
-      setDBUser(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }, []);
+  // const getDBUser = useCallback(async (id: string | undefined | string[]) => {
+  //   try {
+  //     const res = await fetch(`http://localhost:3000/api/user/${id}`);
+  //     const data = await res.json();
+  //     setDBUser(data);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }, []);
 
-  const getExecutorProfile = useCallback(
-    async (id: string | undefined | string[]) => {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/executorProfile/${id}`
-        );
-        const data = await res.json();
-        setExecutorProfile(data);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    []
-  );
+  // const getExecutorProfile = useCallback(
+  //   async (id: string | undefined | string[]) => {
+  //     try {
+  //       const res = await fetch(
+  //         `http://localhost:3000/api/executorProfile/${id}`
+  //       );
+  //       const data = await res.json();
+  //       setExecutorProfile(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   },
+  //   []
+  // );
 
   const getCreatorProfile = useCallback(
     async (id: string | undefined | string[]) => {
@@ -121,37 +99,37 @@ export default function UtilsContextProvider({
     []
   );
 
-  const getSentProposals = useCallback(
-    async (id: string | undefined | string[]) => {
-      try {
-        const response = await fetch(
-          `http://localhost:3000/api/proposal/${id}`
-        );
+  // const getSentProposals = useCallback(
+  //   async (id: string | undefined | string[]) => {
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:3000/api/proposal/${id}`
+  //       );
 
-        const data = await response.json();
-        setSentProposal(data);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    []
-  );
+  //       const data = await response.json();
+  //       setSentProposal(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   },
+  //   []
+  // );
 
-  const getAcceptedProposal = useCallback(
-    async (id: string | undefined | string[]) => {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/proposal/acceptedProposal/${id}`
-        );
+  // const getAcceptedProposal = useCallback(
+  //   async (id: string | undefined | string[]) => {
+  //     try {
+  //       const res = await fetch(
+  //         `http://localhost:3000/api/proposal/acceptedProposal/${id}`
+  //       );
 
-        const data = await res.json();
-        setAcceptedProposal(data);
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    []
-  );
+  //       const data = await res.json();
+  //       setAcceptedProposal(data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   },
+  //   []
+  // );
 
   return (
     <UtilsContext.Provider
@@ -159,23 +137,11 @@ export default function UtilsContextProvider({
         screenSize,
         inputDivStyle,
         setInputDivStyle,
-        dbUser,
-        setDBUser,
-        getDBUser,
-        sentProposals,
-        setSentProposal,
-        getSentProposals,
-        acceptedProposal,
-        setAcceptedProposal,
-        getAcceptedProposal,
-        editedState,
-        setEditedState,
-        executorProfile,
-        setExecutorProfile,
-        getExecutorProfile,
         creatorProfile,
         setCreatorProfile,
         getCreatorProfile,
+        editedState,
+        setEditedState,
       }}
     >
       {children}

@@ -55,11 +55,11 @@ function SmallScreen({
         <span>Urgent2k</span>
       </Link>
       {user ? (
-        dbUser.role === "executor" ? (
+        dbUser?.role === "executor" ? (
           <div onClick={handleUserMenu} className="relative">
             <Image
               src={`${
-                executorProfile[0]?.image ||
+                executorProfile?.[0]?.image ||
                 user?.picture ||
                 "/no-profile-icon.png"
               }`}
@@ -77,7 +77,7 @@ function SmallScreen({
                 <div className="flex flex-col">
                   <Image
                     src={`${
-                      executorProfile[0]?.image ||
+                      executorProfile?.[0]?.image ||
                       user?.picture ||
                       "/no-profile-icon.png"
                     }`}
@@ -104,7 +104,7 @@ function SmallScreen({
           <div onClick={handleUserMenu} className="relative">
             <Image
               src={`${
-                creatorProfile[0]?.image ||
+                creatorProfile?.[0]?.image ||
                 user.picture ||
                 "/no-profile-icon.png"
               }`}
@@ -122,7 +122,7 @@ function SmallScreen({
                 <div className="flex flex-col">
                   <Image
                     src={`${
-                      creatorProfile[0]?.image ||
+                      creatorProfile?.[0]?.image ||
                       user.picture ||
                       "/no-profile-icon.png"
                     }`}

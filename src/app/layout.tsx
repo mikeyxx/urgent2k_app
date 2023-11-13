@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import Navbar from "@/components/navbarComp/Navbar";
 import UtilsContextProvider from "@/context/UtilsContext";
+import ChatContextProvider from "@/context/ChatContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,8 +21,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <UtilsContextProvider>
-          <Navbar />
-          <main>{children}</main>
+          <ChatContextProvider>
+            <Navbar />
+            <main>{children}</main>
+          </ChatContextProvider>
         </UtilsContextProvider>
       </body>
     </html>

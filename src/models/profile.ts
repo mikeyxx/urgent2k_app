@@ -47,7 +47,7 @@ interface ProfileDocument extends Document {
   certifications: Certifications[];
   projects: Projects[];
   phone: string;
-  userId: string;
+  executorId: string;
 }
 
 const profileSchema = new Schema<ProfileDocument>(
@@ -98,7 +98,7 @@ const profileSchema = new Schema<ProfileDocument>(
       },
     ],
     phone: String,
-    userId: {
+    executorId: {
       type: String,
       ref: "User",
     },

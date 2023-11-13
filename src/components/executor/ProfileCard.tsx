@@ -1,8 +1,8 @@
 import React from "react";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/utils/auth";
 import Image from "next/image";
-import { ExecutorProfileDocument } from "@/utils/executor";
+import { ExecutorProfileDocument } from "@/utils/lib";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { getExecutorProfile } from "@/api";
 
 async function getUser(executorId: string | undefined) {
   const res = await fetch(
@@ -17,23 +17,24 @@ async function getUser(executorId: string | undefined) {
 }
 
 async function ProfileCard() {
-  const session = await getServerSession(authOptions);
-  const data: ExecutorProfileDocument = await getUser(session?.user.id);
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+  const data: ExecutorProfileDocument[] = await getExecutorProfile(user?.id);
   return (
     <div className="border flex items-center flex-col p-5 rounded-lg lg:w-[280px]">
       <Image
-        src={session?.user.image ?? ""}
+        src={user?.picture || data[0].image || ""}
         alt="my avatar"
         width={80}
         height={80}
         className="rounded-full w-[80px] h-[80px] object-cover"
       />
       <div className="mt-4 text-center">
-        <p className="underline">{session?.user.name}</p>
+        <p className="underline">{user?.given_name}</p>
 
         <p className="lg:text-sm">
-          <strong>{data.title}</strong> - {data.skills[0]}, {data.skills[1]},{" "}
-          {data.skills[2]}
+          <strong>{data[0].title}</strong> - {data[0].skills[0]},{" "}
+          {data[0].skills[1]}, {data[0].skills[2]}
         </p>
       </div>
     </div>

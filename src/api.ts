@@ -1,4 +1,4 @@
-export async function getDBUser(userId: string | undefined) {
+export async function getDBUser(userId: string | undefined | string[]) {
   try {
     const res = await fetch(`http://localhost:3000/api/user/${userId}`);
 
@@ -20,7 +20,9 @@ export async function getDBUser(userId: string | undefined) {
   }
 }
 
-export async function getExecutorProfile(userId: string | undefined) {
+export async function getExecutorProfile(
+  userId: string | undefined | string[]
+) {
   try {
     const res = await fetch(
       `http://localhost:3000/api/executorProfile/${userId}`
@@ -77,7 +79,7 @@ export async function getTasks(id: string | undefined) {
   }
 }
 
-export async function getSentProposals(id: string | undefined) {
+export async function getSentProposals(id: string | undefined | string[]) {
   try {
     const response = await fetch(`http://localhost:3000/api/proposal/${id}`);
 
@@ -102,7 +104,9 @@ export async function getSingleProposal(
   }
 }
 
-export async function getAcceptedProposal(userId: string | undefined) {
+export async function getAcceptedProposal(
+  userId: string | undefined | string[]
+) {
   try {
     const res = await fetch(
       `http://localhost:3000/api/proposal/acceptedProposal/${userId}`
@@ -118,18 +122,6 @@ export async function getReceivedProposals(id: string | undefined) {
   try {
     const response = await fetch(
       `http://localhost:3000/api/proposal/task/${id}`
-    );
-
-    return response.json();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-export async function getConversations(id: string | undefined) {
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/conversations/${id}`
     );
 
     return response.json();

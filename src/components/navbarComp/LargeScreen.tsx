@@ -46,7 +46,7 @@ function LargeScreen({
           <span className="text-xl">Urgent2k</span>
         </Link>
 
-        {dbUser && dbUser.role === "executor" && (
+        {dbUser && dbUser?.role === "executor" && (
           <div className="flex gap-4 items-center pt-2">
             <Link href="/executor/feed" className="text-xl" title="Feed">
               <MdRssFeed />
@@ -67,7 +67,7 @@ function LargeScreen({
           </div>
         )}
 
-        {dbUser && dbUser.role === "creator" && (
+        {dbUser && dbUser?.role === "creator" && (
           <div className="flex gap-4 items-center pt-2">
             <Link
               href="/creator/active-tasks"
@@ -94,14 +94,14 @@ function LargeScreen({
         )}
       </div>
       {user ? (
-        dbUser.role === "executor" ? (
+        dbUser?.role === "executor" ? (
           <div
             onClick={() => setUserMenuOpen((prev) => !prev)}
             className="relative"
           >
             <Image
               src={`${
-                executorProfile[0]?.image ||
+                executorProfile?.[0]?.image ||
                 user?.picture ||
                 "/no-profile-icon.png"
               }`}
@@ -116,7 +116,7 @@ function LargeScreen({
                 <div className="flex flex-col text-center">
                   <Image
                     src={`${
-                      executorProfile[0]?.image ||
+                      executorProfile?.[0]?.image ||
                       user?.picture ||
                       "/no-profile-icon.png"
                     }`}
@@ -145,7 +145,7 @@ function LargeScreen({
           >
             <Image
               src={`${
-                creatorProfile[0]?.image ||
+                creatorProfile?.[0]?.image ||
                 user.picture ||
                 "/no-profile-icon.png"
               }`}
@@ -160,7 +160,7 @@ function LargeScreen({
                 <div className="flex flex-col text-center">
                   <Image
                     src={`${
-                      creatorProfile[0]?.image ||
+                      creatorProfile?.[0]?.image ||
                       user.picture ||
                       "/no-profile-icon.png"
                     }`}

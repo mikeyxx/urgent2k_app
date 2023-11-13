@@ -15,7 +15,7 @@ export const POST = async (request: Request) => {
     certifications,
     projects,
     phone,
-    userId,
+    executorId,
   } = await request.json();
 
   try {
@@ -34,7 +34,7 @@ export const POST = async (request: Request) => {
       certifications,
       projects,
       phone,
-      userId,
+      executorId,
     });
 
     await newUserProfile.save();
