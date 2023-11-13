@@ -1,6 +1,11 @@
 "use client";
 
-import { DBUser, ProfileDocument, ProposalProps } from "@/utils/lib";
+import {
+  CreatorProfileDocument,
+  DBUser,
+  ExecutorProfileDocument,
+  ProposalProps,
+} from "@/utils/lib";
 import {
   useContext,
   createContext,
@@ -25,11 +30,16 @@ export type UtilityContext = {
   acceptedProposal: ProposalProps[] | null;
   setAcceptedProposal: Dispatch<SetStateAction<ProposalProps[] | null>>;
   getAcceptedProposal: (id: string | undefined | string[]) => void;
-  editedState: ProfileDocument | null;
-  setEditedState: Dispatch<SetStateAction<ProfileDocument | null>>;
-  userProfile: ProfileDocument | null;
-  setUserProfile: Dispatch<SetStateAction<ProfileDocument | null>>;
-  getUserProfile: (id: string | undefined | string[]) => void;
+  editedState: ExecutorProfileDocument | null;
+  setEditedState: Dispatch<SetStateAction<ExecutorProfileDocument | null>>;
+  executorProfile: ExecutorProfileDocument[] | null;
+  setExecutorProfile: Dispatch<
+    SetStateAction<ExecutorProfileDocument[] | null>
+  >;
+  getExecutorProfile: (id: string | undefined | string[]) => void;
+  creatorProfile: CreatorProfileDocument[] | null;
+  setCreatorProfile: Dispatch<SetStateAction<CreatorProfileDocument[] | null>>;
+  getCreatorProfile: (id: string | undefined | string[]) => void;
 };
 
 export const UtilsContext = createContext<UtilityContext | null>(null);
@@ -46,12 +56,18 @@ export default function UtilsContextProvider({
   );
   const [inputDivStyle, setInputDivStyle] = useState(0);
   const [dbUser, setDBUser] = useState<DBUser | null>(null);
-  const [userProfile, setUserProfile] = useState<ProfileDocument | null>(null);
+  const [executorProfile, setExecutorProfile] = useState<
+    ExecutorProfileDocument[] | null
+  >(null);
+  const [creatorProfile, setCreatorProfile] = useState<
+    CreatorProfileDocument[] | null
+  >(null);
   const [sentProposals, setSentProposal] = useState<string[] | null>(null);
   const [acceptedProposal, setAcceptedProposal] = useState<
     ProposalProps[] | null
   >(null);
-  const [editedState, setEditedState] = useState<ProfileDocument | null>(null);
+  const [editedState, setEditedState] =
+    useState<ExecutorProfileDocument | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -75,12 +91,29 @@ export default function UtilsContextProvider({
     }
   }, []);
 
-  const getUserProfile = useCallback(
+  const getExecutorProfile = useCallback(
     async (id: string | undefined | string[]) => {
       try {
-        const res = await fetch(`http://localhost:3000/api/profile/${id}`);
+        const res = await fetch(
+          `http://localhost:3000/api/executorProfile/${id}`
+        );
         const data = await res.json();
-        setUserProfile(data);
+        setExecutorProfile(data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    []
+  );
+
+  const getCreatorProfile = useCallback(
+    async (id: string | undefined | string[]) => {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/api/creatorProfile/${id}`
+        );
+        const data = await res.json();
+        setCreatorProfile(data);
       } catch (error) {
         console.error(error);
       }
@@ -137,9 +170,12 @@ export default function UtilsContextProvider({
         getAcceptedProposal,
         editedState,
         setEditedState,
-        userProfile,
-        setUserProfile,
-        getUserProfile,
+        executorProfile,
+        setExecutorProfile,
+        getExecutorProfile,
+        creatorProfile,
+        setCreatorProfile,
+        getCreatorProfile,
       }}
     >
       {children}

@@ -4,7 +4,7 @@ import ProfileCard from "@/components/executor/ProfileCard";
 import React from "react";
 import { redirect } from "next/navigation";
 import Feeds from "@/components/Feeds";
-import { getUserProfile } from "@/api";
+import { getExecutorProfile } from "@/api";
 import { ExecutorProfileDocument } from "@/utils/lib";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
@@ -12,7 +12,7 @@ async function Page() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
-  const data: ExecutorProfileDocument = await getUserProfile(user?.id);
+  const data: ExecutorProfileDocument = await getExecutorProfile(user?.id);
 
   if (!user) {
     redirect("/api/auth/login?post_login_redirect_url=/executor/feed");

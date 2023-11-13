@@ -11,38 +11,41 @@ import {
 } from "react-icons/md";
 import Link from "next/link";
 import { IoMdAdd, IoMdSchool } from "react-icons/io";
-import { useSession } from "next-auth/react";
 import { useUtilsContext } from "@/context/UtilsContext";
 import { usePathname, useParams, useRouter } from "next/navigation";
 import ProfileSkeleton from "@/utils/ProfileSkeleton";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { Tooltip } from "react-tooltip";
 import StarRating from "@/utils/StarRating";
-import { ExecutorProfileDocument } from "@/utils/executor";
+import { ExecutorProfileDocument } from "@/utils/lib";
 
-function Profile() {
-  const { data: session } = useSession();
+function Profile({ user }: { user: any }) {
   const pathname = usePathname();
   const router = useRouter();
   const params = useParams();
   const {
-    getUser,
+    getDBUser,
     getSentProposals,
-    user,
+    dbUser,
+    executorProfile,
+    setExecutorProfile,
     sentProposals,
     acceptedProposal,
     getAcceptedProposal,
+    getExecutorProfile,
     setEditedState,
   } = useUtilsContext();
 
   if (pathname === `/view/applicant/${params.id}/profile`) {
-    getUser(params.id);
+    getDBUser(params.id);
+    getExecutorProfile(params.id);
     getSentProposals(params.id);
     getAcceptedProposal(params.id);
   } else {
-    getUser(session?.user.id);
-    getSentProposals(session?.user.id);
-    getAcceptedProposal(session?.user.id);
+    getDBUser(user?.id);
+    getExecutorProfile(user?.id);
+    getSentProposals(user?.id);
+    getAcceptedProposal(user?.id);
   }
 
   if (user === null) {
@@ -64,7 +67,7 @@ function Profile() {
         <div className="border-b-2 w-full flex-center flex-col gap-3 pb-3">
           <div className="relative">
             <Image
-              src={session?.user.image ?? "/no-profile-icon.png"}
+              src={executorProfile?.image ?? "/no-profile-icon.png"}
               alt="profile picture"
               width={100}
               height={100}
@@ -78,7 +81,7 @@ function Profile() {
             </button>
           </div>
           <div className="flex flex-col items-center mt-3 gap-3">
-            <p>{session?.user?.name}</p>
+            <p>{dbUser?.name}</p>
 
             <StarRating />
           </div>
@@ -123,7 +126,7 @@ function Profile() {
             </small>
           </div>
         </div>
-        {session?.user.role === "creator" && (
+        {dbUser?.role === "creator" && (
           <Link
             className="bg-primary text-white px-4 py-2 rounded-lg shadow-md text-center mt-2"
             href="/messages"
@@ -267,7 +270,7 @@ function Profile() {
             <h4 className="text-center">Categories</h4>
           </div>
           <div className="flex flex-wrap items-center mt-5 gap-2">
-            {user.categories.map((category, index) => (
+            {executorProfile?.categories.map((category, index) => (
               <small key={index} className="text-xs bg-b/25 p-2 rounded-lg ">
                 {category}
               </small>
@@ -282,7 +285,7 @@ function Profile() {
             <h4 className="text-center">Skills</h4>
           </div>
           <div className="flex flex-wrap items-center mt-5 gap-2">
-            {user.skills.map((skill, index) => (
+            {executorProfile?.skills.map((skill, index) => (
               <small key={index} className="text-xs bg-b/25 p-2 rounded-lg ">
                 {skill}
               </small>
@@ -316,7 +319,7 @@ function Profile() {
 
           {true ? (
             <div className="flex flex-wrap gap-[20px]">
-              {user?.experiences?.map((xperience, index) => (
+              {executorProfile?.experiences?.map((xperience, index) => (
                 <div
                   key={index}
                   className="flex-1 border rounded-lg p-[15px] bg-white shadow-md min-w-[250px]"
@@ -356,7 +359,7 @@ function Profile() {
 
           {true ? (
             <div className="flex flex-wrap gap-[20px]">
-              {user?.certifications?.map((cert, index) => (
+              {executorProfile?.certifications?.map((cert, index) => (
                 <div
                   key={index}
                   className="flex-1 border rounded-lg p-[15px] bg-white shadow-md min-w-[250px]"
@@ -392,7 +395,7 @@ function Profile() {
           </div>
           {true ? (
             <div className="flex flex-wrap gap-[20px]">
-              {user?.projects?.map((project, index) => (
+              {executorProfile?.projects?.map((project, index) => (
                 <Link
                   key={index}
                   href={project.link}

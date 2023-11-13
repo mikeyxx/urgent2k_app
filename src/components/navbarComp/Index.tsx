@@ -6,15 +6,20 @@ import Sidebar from "./Sidebar";
 import LargeScreen from "./LargeScreen";
 import SmallScreen from "./SmallScreen";
 import MediumScreen from "./MediumScreen";
-import { DBUser, ExecutorProfileDocument } from "@/utils/lib";
+import {
+  CreatorProfileDocument,
+  DBUser,
+  ExecutorProfileDocument,
+} from "@/utils/lib";
 
 interface NavbarProps {
   dbUser: DBUser;
-  profile: ExecutorProfileDocument;
+  executorProfile: ExecutorProfileDocument[];
+  creatorProfile: CreatorProfileDocument[];
   user: any;
 }
 
-function Index({ dbUser, profile, user }: NavbarProps) {
+function Index({ dbUser, executorProfile, creatorProfile, user }: NavbarProps) {
   const [offset, setOffset] = useState(0);
   const [open, setOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -40,7 +45,8 @@ function Index({ dbUser, profile, user }: NavbarProps) {
             setOpen={setOpen}
             offset={offset}
             dbUser={dbUser}
-            profile={profile}
+            executorProfile={executorProfile}
+            creatorProfile={creatorProfile}
             user={user}
           />
           {/* For medium screens */}
@@ -51,7 +57,8 @@ function Index({ dbUser, profile, user }: NavbarProps) {
             userMenuOpen={userMenuOpen}
             setUserMenuOpen={setUserMenuOpen}
             dbUser={dbUser}
-            profile={profile}
+            executorProfile={executorProfile}
+            creatorProfile={creatorProfile}
             user={user}
           />
           {/* For large screens */}
@@ -60,7 +67,8 @@ function Index({ dbUser, profile, user }: NavbarProps) {
             userMenuOpen={userMenuOpen}
             setUserMenuOpen={setUserMenuOpen}
             dbUser={dbUser}
-            profile={profile}
+            executorProfile={executorProfile}
+            creatorProfile={creatorProfile}
             user={user}
           />
         </div>

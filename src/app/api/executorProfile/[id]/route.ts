@@ -9,7 +9,9 @@ export const GET = async (
   try {
     await connectDB();
 
-    const profile = await Profile.findById(params.id).exec();
+    const profile = await Profile.find({ userId: params.id })
+      .populate("userId")
+      .exec();
 
     if (!profile)
       return new Response("Profile has not been created", {

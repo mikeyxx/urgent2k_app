@@ -74,8 +74,12 @@ interface Address {
   town: string;
   street: string;
 }
+interface Location {
+  city: string;
+  country: string;
+}
 
-export interface ProfileDocument {
+export interface ExecutorProfileDocument {
   _id: string;
   image: string;
   title: string;
@@ -100,6 +104,15 @@ export interface DBUser {
   name: string;
   email: string;
   role: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface CreatorProfileDocument {
+  _id: string;
+  image: string;
+  location: Location;
+  userId: string;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -8,7 +8,8 @@ export async function getDBUser(userId: string | undefined) {
         console.warn("User not found in the database");
         return null;
       } else {
-        throw new Error(`Failed to fetch user data: ${res.status}`);
+        console.error(`Failed to fetch user data: ${res.status}`);
+        return null;
       }
     }
 
@@ -19,23 +20,49 @@ export async function getDBUser(userId: string | undefined) {
   }
 }
 
-export async function getUserProfile(userId: string | undefined) {
+export async function getExecutorProfile(userId: string | undefined) {
   try {
-    const res = await fetch(`http://localhost:3000/api/profile/${userId}`);
+    const res = await fetch(
+      `http://localhost:3000/api/executorProfile/${userId}`
+    );
     if (!res.ok) {
       if (res.status === 404) {
-        // Handle the case where the user is not found
         console.warn("User profile not found in the database");
         return null;
       } else {
-        throw new Error(`Failed to fetch user data: ${res.status}`);
+        console.error(`Failed to fetch user data: ${res.status}`);
+
+        return null;
       }
     }
-
     return res.json();
   } catch (error) {
     console.error(error);
-    throw error; // Re-throw the error to propagate it
+
+    return null;
+  }
+}
+
+export async function getCreatorProfile(userId: string | undefined) {
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/creatorProfile/${userId}`
+    );
+    if (!res.ok) {
+      if (res.status === 404) {
+        console.warn("User profile not found in the database");
+        return null;
+      } else {
+        console.error(`Failed to fetch user data: ${res.status}`);
+
+        return null;
+      }
+    }
+    return res.json();
+  } catch (error) {
+    console.error(error);
+
+    return null;
   }
 }
 

@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { getDBUser } from "@/api";
 
-async function Welcome() {
+async function ProfileCreatorWelcomePage() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   const dbUser = await getDBUser(user?.id);
@@ -25,7 +25,7 @@ async function Welcome() {
       <div className="w-full flex flex-col gap-8 lg:flex-row lg:gap-0 items-center justify-between">
         <div className="flex flex-col gap-4">
           <h2 className="font-montserrat font-bold text-2xl mb-8">
-            Hey {dbUser.name}, Ready to start making wave?
+            Hey {dbUser?.name}, Ready to start making wave?
           </h2>
 
           <div className="flex items-center gap-4 border-b-2 pb-4">
@@ -42,7 +42,7 @@ async function Welcome() {
           </div>
 
           <Link
-            href="/executor/profile/create/nw"
+            href="/creator/profile/create/nw"
             className="bg-primary text-white py-3 lg:py-1 px-5 lg:px-8 rounded-xl w-[180px] lg:w-fit"
           >
             Get Started
@@ -58,7 +58,6 @@ async function Welcome() {
             />
           </div>
           <p className="text-lg mt-3">Peter Kukucan</p>
-          <p className="text-sm">User Experience Designer</p>
           <div className="flex justify-between items-center w-full">
             <div className="flex items-center gap-3 text-sm">
               <AiOutlineStar />
@@ -70,8 +69,8 @@ async function Welcome() {
             </div>
           </div>
           <p className="mt-6">
-            &ldquo;Urgent2k has given me the platform to start a career, earn
-            and help people with my skills&rdquo;
+            &ldquo;Urgent2k has made it easy for me to find help for the
+            important tasks that I can&apos;t complete myself&rdquo;
           </p>
         </div>
       </div>
@@ -79,4 +78,4 @@ async function Welcome() {
   );
 }
 
-export default Welcome;
+export default ProfileCreatorWelcomePage;

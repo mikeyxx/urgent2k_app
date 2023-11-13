@@ -5,12 +5,10 @@ import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import Image from "next/image";
 import { MdModeEditOutline } from "react-icons/md";
-import { useUtilsContext } from "@/context/UtilsContext";
 import Loading from "@/utils/HashLoader";
 
 function ProfileEditor({ user }: { user: any }) {
   const router = useRouter();
-  const { editedState } = useUtilsContext();
   const charCount = 600;
   const [loading, setLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -19,22 +17,22 @@ function ProfileEditor({ user }: { user: any }) {
   const [skills, setSkills] = useState("");
   const [categories, setCategories] = useState("");
   const [executor, setExecutor] = useState({
-    title: editedState?.title ?? "",
-    bio: editedState?.bio ?? "",
-    rate: editedState?.rate ?? "",
+    title: "",
+    bio: "",
+    rate: "",
     education: {
-      school: editedState?.education.school ?? "",
-      degree: editedState?.education.degree ?? "",
-      start: editedState?.education.start ?? "",
-      end: editedState?.education.end ?? "",
+      school: "",
+      degree: "",
+      start: "",
+      end: "",
     },
     address: {
-      country: editedState?.address.country ?? "",
-      city: editedState?.address.city ?? "",
-      town: editedState?.address.town ?? "",
-      street: editedState?.address.street ?? "",
+      country: "",
+      city: "",
+      town: "",
+      street: "",
     },
-    phone: editedState?.phone ?? "",
+    phone: "",
   });
 
   const handleImageUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,8 +116,8 @@ function ProfileEditor({ user }: { user: any }) {
     };
 
     try {
-      const response = await fetch(`/api/executorProfile/${user?.id}`, {
-        method: "PATCH",
+      const response = await fetch("/api/executorProfile/", {
+        method: "POST",
         body: JSON.stringify({
           image: selectedImage,
           title: executor.title,
@@ -159,7 +157,7 @@ function ProfileEditor({ user }: { user: any }) {
   return (
     <article className="w-full max-w-full px-4 pb-5 m-auto font-montserrat">
       <h3 className="text-xl lg:text-2xl font-bold">
-        Update your profile by telling us what you are about
+        Create your profile by telling us what you are about
       </h3>
 
       <div className="mt-10 rounded-xl mb-7 px-4 py-8">

@@ -12,14 +12,15 @@ import { useUtilsContext } from "@/context/UtilsContext";
 function Profile({ user }: { user: any }) {
   const pathname = usePathname();
   const params = useParams();
-  const { getDBUser, dbUser, userProfile, getUserProfile } = useUtilsContext();
+  const { getDBUser, dbUser, creatorProfile, getCreatorProfile } =
+    useUtilsContext();
 
   if (pathname === `/view/creator/${params.id}/profile`) {
     getDBUser(params.id);
-    getUserProfile(params.id);
+    getCreatorProfile(params.id);
   } else {
     getDBUser(user.id);
-    getUserProfile(user.id);
+    getCreatorProfile(user.id);
   }
 
   return (
@@ -28,11 +29,15 @@ function Profile({ user }: { user: any }) {
         <div className="border-b-2 w-full flex-center flex-col gap-3 pb-3">
           <div className="relative">
             <Image
-              src={userProfile?.image ?? "/no-profile-icon.png"}
+              src={
+                creatorProfile?.[0]?.image ||
+                user.picture ||
+                "/no-profile-icon.png"
+              }
               alt="profile picture"
               width={100}
               height={100}
-              className="rounded-full"
+              className="rounded-full w-[100px] h-[100px] object-cover"
             />
             <button className="h-fit w-fit p-1 rounded-full border border-primary bg-primary text-white absolute top-0 right-0">
               <MdModeEditOutline />

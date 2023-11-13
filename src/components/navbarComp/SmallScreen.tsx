@@ -4,7 +4,11 @@ import React from "react";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import HamburgerMenu from "./HamburgerMenu";
 import { usePathname } from "next/navigation";
-import { DBUser, ExecutorProfileDocument } from "@/utils/lib";
+import {
+  CreatorProfileDocument,
+  DBUser,
+  ExecutorProfileDocument,
+} from "@/utils/lib";
 import {
   RegisterLink,
   LoginLink,
@@ -16,7 +20,8 @@ interface SmallScreenProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   offset: number;
   dbUser: DBUser;
-  profile: ExecutorProfileDocument;
+  executorProfile: ExecutorProfileDocument[];
+  creatorProfile: CreatorProfileDocument[];
   user: any;
 }
 
@@ -25,7 +30,8 @@ function SmallScreen({
   setOpen,
   offset,
   dbUser,
-  profile,
+  executorProfile,
+  creatorProfile,
   user,
 }: SmallScreenProps) {
   const pathname = usePathname();
@@ -49,42 +55,97 @@ function SmallScreen({
         <span>Urgent2k</span>
       </Link>
       {user ? (
-        <div onClick={handleUserMenu} className="relative">
-          <Image
-            src={`${profile ? profile.image : "/no-profile-icon.png"}`}
-            alt="profile image"
-            width={37}
-            height={37}
-            className="rounded-full w-[37px] h-[37px] object-cover cursor-pointer"
-          />
+        dbUser.role === "executor" ? (
+          <div onClick={handleUserMenu} className="relative">
+            <Image
+              src={`${
+                executorProfile[0]?.image ||
+                user?.picture ||
+                "/no-profile-icon.png"
+              }`}
+              alt="profile image"
+              width={37}
+              height={37}
+              className="rounded-full w-[37px] h-[37px] object-cover cursor-pointer"
+            />
 
-          <div
-            id="userMenu"
-            className="hidden absolute top-12 right-4 bg-white shadow-lg text-black rounded-lg p-4 w-[200px]"
-          >
-            <div className="flex flex-col items-center justify-center">
-              <div className="flex flex-col">
-                <Image
-                  src={`${profile ? profile.image : "/no-profile-icon.png"}`}
-                  alt="profile image"
-                  width={60}
-                  height={60}
-                  className="rounded-full w-[37px] h-[37px] object-cover place-self-center"
-                />
-                <p className="font-semibold text-base">{dbUser?.name}</p>
-                <small className="text-sm font-normal place-self-center">
-                  {dbUser?.role}
-                </small>
-              </div>
-              <LogoutLink>
-                <div className="flex items-center font-medium text-base gap-3 mt-10 cursor-pointer">
-                  <RiLogoutCircleLine />
-                  <p>Log out</p>
+            <div
+              id="userMenu"
+              className="hidden absolute top-12 right-4 bg-white shadow-lg text-black rounded-lg p-4 w-[200px]"
+            >
+              <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col">
+                  <Image
+                    src={`${
+                      executorProfile[0]?.image ||
+                      user?.picture ||
+                      "/no-profile-icon.png"
+                    }`}
+                    alt="profile image"
+                    width={60}
+                    height={60}
+                    className="rounded-full w-[37px] h-[37px] object-cover place-self-center"
+                  />
+                  <p className="font-semibold text-base">{dbUser?.name}</p>
+                  <small className="text-sm font-normal place-self-center">
+                    {dbUser?.role}
+                  </small>
                 </div>
-              </LogoutLink>
+                <LogoutLink>
+                  <div className="flex items-center font-medium text-base gap-3 mt-10 cursor-pointer">
+                    <RiLogoutCircleLine />
+                    <p>Log out</p>
+                  </div>
+                </LogoutLink>
+              </div>
             </div>
           </div>
-        </div>
+        ) : (
+          <div onClick={handleUserMenu} className="relative">
+            <Image
+              src={`${
+                creatorProfile[0]?.image ||
+                user.picture ||
+                "/no-profile-icon.png"
+              }`}
+              alt="profile image"
+              width={37}
+              height={37}
+              className="rounded-full w-[37px] h-[37px] object-cover cursor-pointer"
+            />
+
+            <div
+              id="userMenu"
+              className="hidden absolute top-12 right-4 bg-white shadow-lg text-black rounded-lg p-4 w-[200px]"
+            >
+              <div className="flex flex-col items-center justify-center">
+                <div className="flex flex-col">
+                  <Image
+                    src={`${
+                      creatorProfile[0]?.image ||
+                      user.picture ||
+                      "/no-profile-icon.png"
+                    }`}
+                    alt="profile image"
+                    width={60}
+                    height={60}
+                    className="rounded-full w-[37px] h-[37px] object-cover place-self-center"
+                  />
+                  <p className="font-semibold text-base">{dbUser?.name}</p>
+                  <small className="text-sm font-normal place-self-center">
+                    {dbUser?.role}
+                  </small>
+                </div>
+                <LogoutLink>
+                  <div className="flex items-center font-medium text-base gap-3 mt-10 cursor-pointer">
+                    <RiLogoutCircleLine />
+                    <p>Log out</p>
+                  </div>
+                </LogoutLink>
+              </div>
+            </div>
+          </div>
+        )
       ) : (
         <RegisterLink>
           <button
