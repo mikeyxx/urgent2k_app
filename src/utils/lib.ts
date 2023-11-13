@@ -5,7 +5,7 @@ export interface TaskDetailsProps {
   img: string;
   docFile: string;
   filename?: string;
-  category: string[];
+  categories: string[];
   skills: string[];
   budget: string;
   experience: string;

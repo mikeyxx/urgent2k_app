@@ -3,14 +3,8 @@ import Chat_History_Search from "./Chat_History_Search";
 import Conversations from "./Conversations";
 import { useChatContext } from "@/context/ChatContext";
 import { useUtilsContext } from "@/context/UtilsContext";
-import { DBUser } from "@/utils/lib";
 
-interface ChatHistoryProps {
-  user: any;
-  dbUser: DBUser;
-}
-
-function Chat_History({ user, dbUser }: ChatHistoryProps) {
+function Chat_History() {
   const { state } = useChatContext();
   const { screenSize } = useUtilsContext();
 

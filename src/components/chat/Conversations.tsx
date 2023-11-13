@@ -5,7 +5,6 @@ import { useChatContext } from "@/context/ChatContext";
 function Conversations() {
   const { conversations, searchedConversation, searchText } = useChatContext();
 
-  // Define the data to map through based on the presence of searchText
   const dataToMap = searchText ? searchedConversation : conversations;
 
   return (

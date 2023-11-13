@@ -3,8 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { FaFolderOpen } from "react-icons/fa";
 import { redirect, useParams, usePathname, useRouter } from "next/navigation";
-
-import { ProposalProps } from "@/utils/lib";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { DBUser, ExecutorProfileDocument, ProposalProps } from "@/utils/lib";
 import Link from "next/link";
 import StarRating from "@/utils/StarRating";
 import ProposalSkeleton from "@/utils/ProposalSkeleton";
@@ -17,7 +17,7 @@ import {
   updateDoc,
   serverTimestamp,
 } from "firebase/firestore";
-import { useUtilsContext } from "@/context/UtilsContext";
+import { getDBUser, getExecutorProfile } from "@/api";
 
 function Proposals() {
   const [proposals, setProposals] = useState<ProposalProps[] | null>(null);
@@ -27,7 +27,12 @@ function Proposals() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [open, setOpen] = useState(false);
   const [executorId, setExecutorId] = useState<string | null>(null);
-  const { dbUser, getDBUser } = useUtilsContext();
+  const { user, isLoading } = useKindeBrowserClient();
+  const [dbUser, setDBUser] = useState<DBUser | null>(null);
+  const [executorProfile, setExecutorProfile] = useState<
+    ExecutorProfileDocument[] | null
+  >(null);
+
   const router = useRouter();
 
   // const { data: session } = useSession({
@@ -78,10 +83,22 @@ function Proposals() {
     .join(" ");
 
   useEffect(() => {
-    if (userId) {
-      getDBUser(userId);
-    }
-  }, [userId, getDBUser]);
+    const fetchData = async () => {
+      try {
+        if (userId) {
+          const dbUserData = await getDBUser(userId);
+          setDBUser(dbUserData);
+
+          const executorProfileData = await getExecutorProfile(userId);
+          setExecutorProfile(executorProfileData);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [userId]);
 
   async function startConversation(
     senderId: string | undefined,
@@ -102,27 +119,27 @@ function Proposals() {
           //create user chats
           await updateDoc(doc(db, "conversations", receiverId), {
             [combinedId + ".userInfo"]: {
-              userId: session?.user.id,
-              name: session?.user.name,
-              photo: session?.user.image,
+              userId: user?.id,
+              name: user?.given_name,
+              photo: user?.picture,
             },
             [combinedId + ".date"]: serverTimestamp(),
           });
 
           await updateDoc(doc(db, "conversations", senderId), {
             [combinedId + ".userInfo"]: {
-              userId: user?._id,
-              name: user?.name,
-              photo: user?.image,
+              userId: dbUser?._id,
+              name: dbUser?.name,
+              photo: executorProfile?.[0]?.image,
             },
             [combinedId + ".date"]: serverTimestamp(),
           });
         }
 
         const messagedUser = {
-          userId: user?._id,
-          name: user?.name,
-          image: user?.image,
+          userId: dbUser?._id,
+          name: dbUser?.name,
+          image: executorProfile?.[0]?.image,
         };
 
         const response = await fetch(`/api/create-task/${taskId}`, {
@@ -242,7 +259,7 @@ function Proposals() {
                       className="bg-primary text-white px-4 py-1 rounded-lg shadow-md"
                       onClick={() =>
                         startConversation(
-                          session?.user.id,
+                          user?.id,
                           proposal.executorId._id,
                           proposal.taskId
                         )

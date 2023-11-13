@@ -46,7 +46,7 @@ function ActiveChatHeader({ user, dbUser }: ActiveChatHeaderProps) {
           alt=""
           width={30}
           height={30}
-          className="rounded-full"
+          className="rounded-full w-[30px] h-[30px] object-cover"
         />
         <span className="absolute w-[7px] h-[7px] top-0 right-0 bg-primary rounded-full"></span>
       </div>

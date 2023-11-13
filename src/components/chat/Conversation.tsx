@@ -54,7 +54,7 @@ function Conversation({ conversation }: { conversation: ConversationProps }) {
             alt="profile avatar"
             width={50}
             height={50}
-            className="rounded-full"
+            className="rounded-full w-[40px] h-[40px] object-cover"
           />
           <span className="absolute w-[7px] h-[7px] top-0 right-0 bg-primary rounded-full"></span>
         </div>

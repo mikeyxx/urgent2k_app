@@ -13,7 +13,7 @@ interface MessagingProps {
 function Messaging({ user, dbUser }: MessagingProps) {
   return (
     <div className="rounded-lg w-[80%] h-[95%] flex flex-col xl:flex-row overflow-hidden">
-      <Chat_History user={user} dbUser={dbUser} />
+      <Chat_History />
       <Messages user={user} dbUser={dbUser} />
     </div>
   );
