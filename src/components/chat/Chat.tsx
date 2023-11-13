@@ -70,14 +70,14 @@ function Chat({ own, message, user, dbUser }: ChatProps) {
           alt="my avatar"
           height={30}
           width={30}
-          className="place-self-start border border-white rounded-full"
+          className="place-self-start border border-white rounded-full w-[30px] h-[30px] object-cover"
         />
 
         <div
           className={`flex items-center gap-1 ml-[10px] ${own && "mr-[10px]"}`}
         >
           <p className="text-gray-400 text-sm">
-            {message.senderId === user.id ? user.fgiven_name : state.user.name}
+            {message.senderId === user.id ? user.given_name : state.user.name}
           </p>
           <span className="text-xs text-gray-300">
             {getCurrentTimeWithAMPM}
