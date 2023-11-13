@@ -10,7 +10,7 @@ import { BsCalendarDateFill } from "react-icons/bs";
 import { HiOutlineBadgeCheck, HiOutlineClock } from "react-icons/hi";
 import { AiFillTag } from "react-icons/ai";
 import toast, { Toaster } from "react-hot-toast";
-import { useSession } from "next-auth/react";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 
 interface ProposalDetailsModal {
   open: boolean;
@@ -26,7 +26,7 @@ function ProposalDetailsModal({
   singleProposal,
 }: ProposalDetailsModal) {
   const [task, setTask] = useState<TaskDetailsProps[] | null>(null);
-  const { data: session } = useSession();
+  const { user, isLoading } = useKindeBrowserClient();
 
   const closeModal = () => {
     setOpen(false);
@@ -48,7 +48,7 @@ function ProposalDetailsModal({
   async function deleteProposal() {
     try {
       const res = await fetch(
-        `http://localhost:3000/api/proposal/getSingleProposal/?taskId=${taskID}&executorId=${session?.user.id}`,
+        `http://localhost:3000/api/proposal/getSingleProposal/?taskId=${taskID}&executorId=${user?.id}`,
         {
           method: "DELETE",
         }
@@ -98,10 +98,12 @@ function ProposalDetailsModal({
               <div className="mt-8 pr-5">
                 <h4>{singletask?.title}</h4>
 
-                <div className="flex gap-10 mt-5">
-                  <small className="bg-gray-200 rounded-lg px-7">
-                    {singletask.category}
-                  </small>
+                <div className="flex gap-5 mt-5">
+                  {singletask.categories.map((c, index) => (
+                    <small key={index} className="bg-gray-200 rounded-lg px-5">
+                      {c}
+                    </small>
+                  ))}
                   <small>
                     Posted {new Date(singletask.createdAt).toDateString()}
                   </small>
