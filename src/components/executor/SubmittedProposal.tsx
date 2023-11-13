@@ -4,9 +4,8 @@ import React, { useState, useEffect } from "react";
 import ProposalDetailsModal from "@/components/ProposalDetailsModal";
 import { ProposalProps } from "@/utils/lib";
 import { redirect } from "next/navigation";
-import { Session } from "next-auth";
 
-function SubmittedProposal({ session }: { session: Session | null }) {
+function SubmittedProposal({ user }: { user: any }) {
   const [sentProposal, setSentProposal] = useState<ProposalProps[] | null>(
     null
   );
@@ -18,14 +17,14 @@ function SubmittedProposal({ session }: { session: Session | null }) {
 
   useEffect(() => {
     const getProposal = async () => {
-      const res = await fetch(`/api/proposal/${session?.user.id}`);
+      const res = await fetch(`/api/proposal/${user?.id}`);
       const data = await res.json();
 
       setSentProposal(data);
     };
 
     getProposal();
-  }, [session]);
+  }, [user]);
 
   const handleSelected = (id: string) => {
     setOpen(true);
@@ -42,7 +41,7 @@ function SubmittedProposal({ session }: { session: Session | null }) {
     );
   };
 
-  if (!session) {
+  if (!user) {
     redirect("/?callbackUrl=/executor/dashboard/submitted-proposal");
   }
 

@@ -1,12 +1,12 @@
 import SubmittedProposal from "@/components/executor/SubmittedProposal";
-import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/utils/auth";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 async function Page() {
-  const session = await getServerSession(authOptions);
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
   return (
     <>
-      <SubmittedProposal session={session} />
+      <SubmittedProposal user={user} />
     </>
   );
 }
