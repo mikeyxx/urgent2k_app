@@ -49,15 +49,15 @@ function TaskForm() {
       setTask({
         ...task,
         [name]: value,
-        payRate: value ? "" : task.payRate, // Clear payRate if budget is entered
-        pricing: value ? "Fixed rate" : task.pricing, // Set pricing based on input
+        payRate: value ? "" : task.payRate,
+        pricing: value ? "Fixed rate" : task.pricing,
       });
     } else if (name === "payRate") {
       setTask({
         ...task,
         [name]: value,
-        budget: value ? "" : task.budget, // Clear budget if payRate is entered
-        pricing: value ? "Hourly" : task.pricing, // Set pricing based on input
+        budget: value ? "" : task.budget,
+        pricing: value ? "Hourly" : task.pricing,
       });
     } else {
       setTask({ ...task, [name]: value });
@@ -142,38 +142,36 @@ function TaskForm() {
     return downloadUrl;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     setLoading(true);
 
     try {
-      if (docFile) {
-        const downloadUrl = await uploadFileToFirebase(docFile);
-        const response = await fetch("/api/create-task", {
-          method: "POST",
-          body: JSON.stringify({
-            title: task.title,
-            description: task.description,
-            img: img,
-            docFile: downloadUrl,
-            filename: filename,
-            categories: categoriesArray,
-            skills: skillsArray,
-            budget: task.budget,
-            experience: task.experience,
-            pricing: task.pricing,
-            payRate: task.payRate,
-            duration: task.duration,
-            timeRequirement: task.timeRequirement,
-            creatorId: userId,
-          }),
-        });
+      const downloadUrl = docFile ? await uploadFileToFirebase(docFile) : null;
 
-        toast.success("Your new task has been created");
+      const response = await fetch("/api/create-task", {
+        method: "POST",
+        body: JSON.stringify({
+          title: task.title,
+          description: task.description,
+          img: img,
+          docFile: downloadUrl,
+          filename: filename,
+          categories: categoriesArray,
+          skills: skillsArray,
+          budget: task.budget,
+          experience: task.experience,
+          pricing: task.pricing,
+          payRate: task.payRate,
+          duration: task.duration,
+          timeRequirement: task.timeRequirement,
+          creatorId: userId,
+        }),
+      });
 
-        if (response.ok) {
-          router.push("/creator/active-tasks");
-        }
+      toast.success("Your new task has been created");
+
+      if (response.ok) {
+        router.push("/creator/active-tasks");
       }
     } catch (error) {
       console.error(error);
@@ -286,7 +284,7 @@ function TaskForm() {
               </div>
               <div>
                 <label htmlFor="category">Category</label>
-                <div className="border-2 h-9 py-1 px-2 rounded-lg flex gap-3">
+                <div className="border-2 h-full py-1 px-2 rounded-lg flex flex-wrap gap-3">
                   {categoriesArray?.map((category, index) => (
                     <div
                       key={index}
@@ -319,11 +317,11 @@ function TaskForm() {
               </div>
               <div>
                 <label htmlFor="skills">Skills</label>
-                <div className="border-2 h-9 py-1 px-2 rounded-lg flex gap-3">
+                <div className="border-2 h-full py-1 px-2 rounded-lg flex flex-wrap gap-3">
                   {skillsArray?.map((skill, index) => (
                     <div
                       key={index}
-                      className="flex items-center gap-2 bg-b/25 text-xs whitespace-nowrap p-2 rounded-lg"
+                      className="flex items-center gap-2 bg-b/25 text-xs p-2 rounded-lg"
                     >
                       <small className="text-xs">{skill}</small>
                       <span

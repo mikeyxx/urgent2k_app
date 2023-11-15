@@ -17,12 +17,7 @@ import ProfileSkeleton from "@/utils/ProfileSkeleton";
 import { HiOutlineInformationCircle } from "react-icons/hi";
 import { Tooltip } from "react-tooltip";
 import StarRating from "@/utils/StarRating";
-import {
-  ExecutorProfileDocument,
-  CreatorProfileDocument,
-  DBUser,
-  ProposalProps,
-} from "@/utils/lib";
+import { ExecutorProfileDocument, DBUser, ProposalProps } from "@/utils/lib";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import {
   getAcceptedProposal,

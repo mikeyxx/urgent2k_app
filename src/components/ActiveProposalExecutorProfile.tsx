@@ -1,8 +1,9 @@
 "use client";
 
+import { getDBUser, getExecutorProfile } from "@/api";
 import { ConversationProps, useChatContext } from "@/context/ChatContext";
 import ExecutorProfileSkeleton from "@/utils/ExecutorProfileSkeleton";
-import { ExecutorProfileDocument } from "@/utils/lib";
+import { DBUser, ExecutorProfileDocument } from "@/utils/lib";
 import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -30,8 +31,7 @@ function ActiveProposalExecutorProfile({
   const [profileData, setProfileData] = useState<
     ExecutorProfileDocument[] | null
   >(null);
-
-  // const { startConversation } = useChatContext();
+  const [userInfoInDB, setUserInfoInDB] = useState<DBUser | null>(null);
 
   const closeModal = () => {
     setOpen(false);
@@ -39,15 +39,14 @@ function ActiveProposalExecutorProfile({
   };
 
   useEffect(() => {
-    const getExecutorProfile = async () => {
-      const res = await fetch(`/api/executorProfile/${executorId}`);
-
-      const data = await res.json();
-
-      setProfileData(data);
+    const fetchExecutorData = async () => {
+      const profileData = await getExecutorProfile(executorId);
+      const userDBData = await getDBUser(executorId);
+      setProfileData(profileData);
+      setUserInfoInDB(userDBData);
     };
 
-    getExecutorProfile();
+    fetchExecutorData();
   }, [executorId]);
 
   if (profileData === null) {
@@ -95,10 +94,10 @@ function ActiveProposalExecutorProfile({
                     alt="profile picture"
                     width={100}
                     height={100}
-                    className="rounded-full"
+                    className="rounded-full w-[100px] h-[100px] object-cover"
                   />
                   <div className="flex items-center mt-3 gap-3">
-                    <p>name</p>
+                    <p>{userInfoInDB?.name}</p>
 
                     <div className="flex items-center lg:text-sm">
                       <AiOutlineStar />

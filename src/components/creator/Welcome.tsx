@@ -2,12 +2,10 @@ import React from "react";
 import Image from "next/image";
 import { BiTask } from "react-icons/bi";
 import { PiSuitcaseSimpleLight } from "react-icons/pi";
-import { BsCashCoin } from "react-icons/bs";
 import { AiOutlineStar } from "react-icons/ai";
 import Link from "next/link";
 import { SlEnvolopeLetter } from "react-icons/sl";
 import { TbProgressCheck } from "react-icons/tb";
-import { redirect } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 async function Welcome() {
@@ -20,7 +18,7 @@ async function Welcome() {
         <div className="flex flex-col gap-4">
           <div className="font-montserrat flex flex-col gap-3 mb-4">
             <h2 className=" font-bold text-2xl">
-              Hello {user?.given_name}, Welcome to Upwork!
+              Hello {user?.given_name}, Welcome to Urgent2k!
             </h2>
 
             <p className="font-semibold">
@@ -31,7 +29,7 @@ async function Welcome() {
           <div className="flex items-center gap-4 border-b-2 pb-4">
             <BiTask />
             <p>
-              Post your tasks and find skilled executor to bring your ideas to
+              Post your tasks and find a skilled executor to bring your ideas to
               life
             </p>
           </div>

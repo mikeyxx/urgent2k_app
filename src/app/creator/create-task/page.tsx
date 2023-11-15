@@ -17,7 +17,7 @@ async function Page() {
   }
 
   if (profile?.length === 0) {
-    redirect("/creator/profile?callbackUrl=/creator/create-task");
+    redirect("/creator/profile/create?callbackUrl=/creator/create-task");
   }
 
   if (tasks.length === 0) {

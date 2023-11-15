@@ -35,13 +35,6 @@ function Proposals() {
 
   const router = useRouter();
 
-  // const { data: session } = useSession({
-  //   required: true,
-  //   onUnauthenticated() {
-  //     redirect(`/?callbackUrl=/creator/${params.id}/applicants`);
-  //   },
-  // });
-
   useEffect(() => {
     const fetchProposal = async () => {
       try {

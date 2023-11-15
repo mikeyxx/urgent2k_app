@@ -1,4 +1,4 @@
-export async function getDBUser(userId: string | undefined | string[]) {
+export async function getDBUser(userId: string | undefined | string[] | null) {
   try {
     const res = await fetch(`http://localhost:3000/api/user/${userId}`);
 
@@ -21,7 +21,7 @@ export async function getDBUser(userId: string | undefined | string[]) {
 }
 
 export async function getExecutorProfile(
-  userId: string | undefined | string[]
+  userId: string | undefined | string[] | null
 ) {
   try {
     const res = await fetch(
@@ -45,7 +45,7 @@ export async function getExecutorProfile(
   }
 }
 
-export async function getCreatorProfile(userId: string | undefined) {
+export async function getCreatorProfile(userId: string | undefined | string[]) {
   try {
     const res = await fetch(
       `http://localhost:3000/api/creatorProfile/${userId}`

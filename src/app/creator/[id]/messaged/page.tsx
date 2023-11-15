@@ -84,7 +84,7 @@ function Messaged() {
                   alt="applicant photo"
                   width={40}
                   height={40}
-                  className="rounded-full"
+                  className="rounded-full w-[40px] h-[40px] object-cover"
                 />
 
                 <p>{applicant.name}</p>

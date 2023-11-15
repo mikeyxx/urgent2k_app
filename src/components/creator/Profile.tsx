@@ -1,27 +1,46 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { PiSuitcaseSimpleLight } from "react-icons/pi";
 import { MdLocationPin, MdModeEditOutline } from "react-icons/md";
 import Link from "next/link";
 import StarRating from "@/utils/StarRating";
 import { usePathname, useParams } from "next/navigation";
-import { useUtilsContext } from "@/context/UtilsContext";
+import { getDBUser, getCreatorProfile } from "@/api";
+import { CreatorProfileDocument, DBUser } from "@/utils/lib";
 
 function Profile({ user }: { user: any }) {
   const pathname = usePathname();
   const params = useParams();
-  const { getDBUser, dbUser, creatorProfile, getCreatorProfile } =
-    useUtilsContext();
+  const [dbUser, setDBUser] = useState<DBUser | null>(null);
+  const [creatorProfile, setCreatorProfile] = useState<
+    CreatorProfileDocument[] | null
+  >(null);
 
-  if (pathname === `/view/creator/${params.id}/profile`) {
-    getDBUser(params.id);
-    getCreatorProfile(params.id);
-  } else {
-    getDBUser(user.id);
-    getCreatorProfile(user.id);
-  }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (pathname === `/view/creator/${params.id}/profile`) {
+          const dbUserData = await getDBUser(params.id);
+          const creatorProfileData = await getCreatorProfile(params.id);
+
+          setDBUser(dbUserData);
+          setCreatorProfile(creatorProfileData);
+        } else {
+          const dbUserData = await getDBUser(user?.id);
+          const creatorProfileData = await getCreatorProfile(user?.id);
+
+          setDBUser(dbUserData);
+          setCreatorProfile(creatorProfileData);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [pathname, params.id, user?.id]);
 
   return (
     <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
