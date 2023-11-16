@@ -2,10 +2,11 @@
 
 import { ResetStateAction, useChatContext } from "@/context/ChatContext";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { HiMiniArrowLongLeft } from "react-icons/hi2";
-import { DBUser } from "@/utils/lib";
+import { CreatorProfileDocument, DBUser } from "@/utils/lib";
+import { getCreatorProfile } from "@/api";
 
 interface ActiveChatHeaderProps {
   user: any;
@@ -13,6 +14,9 @@ interface ActiveChatHeaderProps {
 }
 
 function ActiveChatHeader({ user, dbUser }: ActiveChatHeaderProps) {
+  const [creatorProfile, setCreatorProfile] = useState<
+    CreatorProfileDocument[] | null
+  >(null);
   const router = useRouter();
   const { state } = useChatContext();
 
@@ -33,6 +37,16 @@ function ActiveChatHeader({ user, dbUser }: ActiveChatHeaderProps) {
     dispatch(resetStateAction);
   };
 
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getCreatorProfile(state.user.userId);
+
+      setCreatorProfile(data);
+    };
+
+    getData();
+  }, [state.user.userId]);
+
   return (
     <div className="flex items-center bg-b/25 h-[50px] p-[10px] text-e">
       <HiMiniArrowLongLeft
@@ -42,8 +56,12 @@ function ActiveChatHeader({ user, dbUser }: ActiveChatHeaderProps) {
 
       <div className="relative border border-white rounded-full max-xl:ml-4">
         <Image
-          src={state.user.photo}
-          alt=""
+          src={
+            state?.user?.photo ||
+            creatorProfile?.[0]?.image ||
+            "/no-profile-icon.png"
+          }
+          alt="User avatar"
           width={30}
           height={30}
           className="rounded-full w-[30px] h-[30px] object-cover"
@@ -53,7 +71,7 @@ function ActiveChatHeader({ user, dbUser }: ActiveChatHeaderProps) {
       <div className="ml-2">
         <p
           className="text-sm hover:underline cursor-pointer"
-          onClick={() => viewUserProfile(state.user.userId)}
+          onClick={() => viewUserProfile(state?.user?.userId)}
         >
           {state.user.name}
         </p>

@@ -201,7 +201,7 @@ function Proposals() {
                 key={proposal._id}
                 className="border-b-2 flex items-center flex-col lg:flex-row"
               >
-                <div className="px-6 py-5">
+                <div className="px-6 py-5 flex-1">
                   {isExpanded && (
                     <div>
                       <p>

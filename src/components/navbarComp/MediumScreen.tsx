@@ -116,7 +116,7 @@ function MediumScreen({
                   <Image
                     src={`${
                       creatorProfile?.[0]?.image ||
-                      user.picture ||
+                      user?.picture ||
                       "/no-profile-icon.png"
                     }`}
                     alt="profile image"

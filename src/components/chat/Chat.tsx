@@ -11,7 +11,8 @@ import { VscCopy } from "react-icons/vsc";
 import { Message, useChatContext } from "@/context/ChatContext";
 import { format } from "date-fns";
 import Link from "next/link";
-import { DBUser } from "@/utils/lib";
+import { CreatorProfileDocument, DBUser } from "@/utils/lib";
+import { getCreatorProfile } from "@/api";
 
 type ChatProps = {
   message: Message;
@@ -23,6 +24,9 @@ type ChatProps = {
 function Chat({ own, message, user, dbUser }: ChatProps) {
   const [visible, setVisible] = useState(false);
   const [copyStatus, setCopyStatus] = useState(false);
+  const [creatorProfile, setCreatorProfile] = useState<
+    CreatorProfileDocument[] | null
+  >(null);
   const { state } = useChatContext();
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -57,6 +61,16 @@ function Chat({ own, message, user, dbUser }: ChatProps) {
     }, 3000);
   }, [copyStatus]);
 
+  useEffect(() => {
+    const getData = async () => {
+      const data = await getCreatorProfile(state.user.userId);
+
+      setCreatorProfile(data);
+    };
+
+    getData();
+  }, [state.user.userId]);
+
   return (
     <div
       ref={scrollRef}
@@ -65,7 +79,11 @@ function Chat({ own, message, user, dbUser }: ChatProps) {
       <div className={`flex ${own && "flex-row-reverse"}`}>
         <Image
           src={`${
-            message?.senderId === user.id ? user.picture : state.user.photo
+            message?.senderId === user.id
+              ? user?.picture ?? "/no-profile-icon.png"
+              : state?.user?.photo ||
+                creatorProfile?.[0]?.image ||
+                "/no-profile-icon.png"
           }`}
           alt="my avatar"
           height={30}
@@ -99,39 +117,39 @@ function Chat({ own, message, user, dbUser }: ChatProps) {
         >
           {message.img && (
             <Image
-              src={message.img}
-              alt=""
+              src={message?.img ?? "/no-profile-icon.png"}
+              alt="USer avatar"
               width={300}
               height={200}
               className="h-[200px] object-cover"
             />
           )}
 
-          {message.file && (
+          {message?.file && (
             <div
               className={`flex items-center ${
-                message.fileName?.split(".")[1] === "pdf"
+                message?.fileName?.split(".")[1] === "pdf"
                   ? "bg-red-600 text-white"
                   : "bg-white text-black"
               } rounded-lg h-14 w-full px-4 gap-3`}
             >
-              {message.fileName?.split(".")[1] === "pdf" ? (
+              {message?.fileName?.split(".")[1] === "pdf" ? (
                 <BsFillFileEarmarkPdfFill />
               ) : (
                 <BsFillFileEarmarkWordFill className="text-blue-500" />
               )}
 
-              <Link href={message.file} target="_blank">
-                {message.fileName && message.fileName?.length > 20
-                  ? message.fileName?.substring(0, 20) + "..."
-                  : message.fileName}
+              <Link href={message?.file} target="_blank">
+                {message?.fileName && message?.fileName?.length > 20
+                  ? message?.fileName?.substring(0, 20) + "..."
+                  : message?.fileName}
               </Link>
             </div>
           )}
-          <p className="text-sm">{message.text}</p>
+          <p className="text-sm">{message?.text}</p>
         </div>
 
-        {dbUser.role === "creator" && (
+        {dbUser?.role === "creator" && (
           <div
             className={`absolute ${
               !own && "right-[-8rem] bg-gray-200 text-black"
@@ -149,7 +167,7 @@ function Chat({ own, message, user, dbUser }: ChatProps) {
             </button>
             <button
               className="flex items-center text-sm"
-              onClick={() => copyToClipboard(message.text)}
+              onClick={() => copyToClipboard(message?.text)}
             >
               <VscCopy />
               <span className="ml-2">{copyStatus ? "Copied" : "Copy"}</span>

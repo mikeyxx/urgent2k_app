@@ -3,6 +3,7 @@ import {
   ConversationProps,
   useChatContext,
 } from "@/context/ChatContext";
+
 import { format, differenceInHours, isToday, isYesterday } from "date-fns";
 import Image from "next/image";
 import React, { useMemo } from "react";
@@ -50,7 +51,7 @@ function Conversation({ conversation }: { conversation: ConversationProps }) {
       <div className="rounded-full flex items-start justify-between w-full">
         <div className="relative">
           <Image
-            src={conversation.userInfo.photo}
+            src={conversation.userInfo.photo ?? "/no-profile-icon.png"}
             alt="profile avatar"
             width={50}
             height={50}

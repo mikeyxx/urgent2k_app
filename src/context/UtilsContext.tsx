@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  CreatorProfileDocument,
-  DBUser,
-  ExecutorProfileDocument,
-  ProposalProps,
-} from "@/utils/lib";
+import { CreatorProfileDocument, ExecutorProfileDocument } from "@/utils/lib";
 import {
   useContext,
   createContext,

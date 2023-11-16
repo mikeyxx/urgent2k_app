@@ -19,8 +19,8 @@ function Messages({ user, dbUser }: MessagesProps) {
   return (
     <div
       className={`flex-3 h-full ${
-        !state.chatId && screenSize < 1280 && "hidden"
-      } ${state.chatId && screenSize < 1280 && "block"}`}
+        !state?.chatId && screenSize < 1280 && "hidden"
+      } ${state?.chatId && screenSize < 1280 && "block"}`}
     >
       {state.chatId ? (
         <>
@@ -31,7 +31,7 @@ function Messages({ user, dbUser }: MessagesProps) {
       ) : (
         <div className="flex flex-col items-center justify-center h-full w-full font-semibold bg-c/5">
           <Image
-            src="savings.svg"
+            src="/savings.svg"
             alt="urgent2k icon"
             width={100}
             height={100}

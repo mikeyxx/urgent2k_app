@@ -156,6 +156,10 @@ function ProfileEditor({ user }: { user: any }) {
     );
   }
 
+  function goBack() {
+    window.history.back();
+  }
+
   return (
     <article className="w-full max-w-full px-4 pb-5 m-auto font-montserrat">
       <h3 className="text-xl lg:text-2xl font-bold">
@@ -432,22 +436,30 @@ function ProfileEditor({ user }: { user: any }) {
                 </div>
               </div>
             </div>
-            {loading ? (
+            <div className="flex items-center justify-between w-full">
               <button
-                type="button"
-                className="bg-gradient-to-r from-blue-500 to-primary text-white py-2 px-4 rounded-full transition-opacity duration-300 ease-in-out opacity-75 hover:opacity-100 cursor-not-allowed"
-                disabled
+                onClick={goBack}
+                className="hover:bg-primary rounded-2xl py-1 px-6 hover:text-white"
               >
-                Sending...
+                Cancel
               </button>
-            ) : (
-              <button
-                onClick={handleSubmit}
-                className="bg-primary rounded-2xl place-self-end text-white py-1 px-6 lg"
-              >
-                Save
-              </button>
-            )}
+              {loading ? (
+                <button
+                  type="button"
+                  className="bg-gradient-to-r from-blue-500 to-primary text-white py-2 px-4 rounded-full transition-opacity duration-300 ease-in-out opacity-75 hover:opacity-100 cursor-not-allowed"
+                  disabled
+                >
+                  Sending...
+                </button>
+              ) : (
+                <button
+                  onClick={handleSubmit}
+                  className="bg-primary rounded-2xl text-white py-1 px-6"
+                >
+                  Save
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
