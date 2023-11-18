@@ -9,7 +9,7 @@ export const GET = async (
   try {
     await connectDB();
 
-    const profile = await Profile.find({ executorId: params.id })
+    const profile = await Profile.findOne({ executorId: params.id })
       .populate("executorId")
       .exec();
 
@@ -49,7 +49,7 @@ export const PATCH = async (
   try {
     await connectDB();
 
-    const profile = await Profile.findById(params.id);
+    const profile = await Profile.findOne({ executorId: params.id });
     if (!profile) return new Response("User not found", { status: 404 });
 
     // Update properties conditionally

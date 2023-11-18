@@ -57,7 +57,7 @@ function Proposals() {
   }, [params.id]);
 
   const toggleReadMore = () => {
-    setIsExpanded(!isExpanded);
+    setIsExpanded((prev) => !prev);
   };
 
   const handleSelected = (id: string) => {
@@ -213,17 +213,9 @@ function Proposals() {
                           {isExpanded ? "Read less" : "Read more"}
                         </button>
                       </p>
-                      <div className="mt-5 flex gap-5">
-                        <button className="hover:bg-primary hover:text-white px-4 py-1 rounded-lg shadow-md">
-                          Hire
-                        </button>
-                        <button className="hover:bg-primary hover:text-white px-4 py-1 rounded-lg shadow-md">
-                          Hire from your list
-                        </button>
-                      </div>
                     </div>
                   )}
-                  {!isExpanded && (
+                  {!isExpanded && proposal.coverLetter.length > 300 && (
                     <p>
                       {proposal.coverLetter.slice(0, 300)}...
                       <button
@@ -234,6 +226,18 @@ function Proposals() {
                       </button>
                     </p>
                   )}
+                  {!isExpanded && proposal.coverLetter.length < 300 && (
+                    <p>{proposal.coverLetter}</p>
+                  )}
+
+                  <div className="mt-5 flex gap-5">
+                    <button className="hover:bg-primary hover:text-white px-4 py-1 rounded-lg shadow-md">
+                      Hire
+                    </button>
+                    <button className="hover:bg-primary hover:text-white px-4 py-1 rounded-lg shadow-md">
+                      Hire from your list
+                    </button>
+                  </div>
                 </div>
 
                 <div className="lg:border-l max-md:border-t px-6 py-5 min-w-[200px] text-center">

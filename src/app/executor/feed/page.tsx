@@ -18,7 +18,7 @@ async function Page() {
     redirect("/api/auth/login?post_login_redirect_url=/executor/feed");
   }
 
-  if (data.length === 0) {
+  if (data?.length === 0) {
     redirect("/executor/profile/create");
   }
 

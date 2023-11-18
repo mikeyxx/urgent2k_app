@@ -90,9 +90,6 @@ function AddPortfolio() {
             link: project.link,
           })),
         }),
-        headers: {
-          "Content-Type": "application/json",
-        },
       });
       if (response.ok) {
         toast.success("Your profile has been updated");

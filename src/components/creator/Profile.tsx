@@ -14,9 +14,8 @@ function Profile({ user }: { user: any }) {
   const pathname = usePathname();
   const params = useParams();
   const [dbUser, setDBUser] = useState<DBUser | null>(null);
-  const [creatorProfile, setCreatorProfile] = useState<
-    CreatorProfileDocument[] | null
-  >(null);
+  const [creatorProfile, setCreatorProfile] =
+    useState<CreatorProfileDocument | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -49,9 +48,7 @@ function Profile({ user }: { user: any }) {
           <div className="relative">
             <Image
               src={
-                creatorProfile?.[0]?.image ||
-                user.picture ||
-                "/no-profile-icon.png"
+                creatorProfile?.image || user.picture || "/no-profile-icon.png"
               }
               alt="profile picture"
               width={100}

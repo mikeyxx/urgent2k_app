@@ -7,7 +7,7 @@ import Image from "next/image";
 import { MdModeEditOutline } from "react-icons/md";
 import Loading from "@/utils/HashLoader";
 
-function ProfileEditor({ user }: { user: any }) {
+function CreateProfile({ user }: { user: any }) {
   const router = useRouter();
   const charCount = 600;
   const [loading, setLoading] = useState(false);
@@ -454,4 +454,4 @@ function ProfileEditor({ user }: { user: any }) {
   );
 }
 
-export default ProfileEditor;
+export default CreateProfile;

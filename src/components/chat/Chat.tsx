@@ -24,9 +24,9 @@ type ChatProps = {
 function Chat({ own, message, user, dbUser }: ChatProps) {
   const [visible, setVisible] = useState(false);
   const [copyStatus, setCopyStatus] = useState(false);
-  const [creatorProfile, setCreatorProfile] = useState<
-    CreatorProfileDocument[] | null
-  >(null);
+  // const [creatorProfile, setCreatorProfile] = useState<
+  //   CreatorProfileDocument[] | null
+  // >(null);
   const { state } = useChatContext();
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
@@ -61,15 +61,15 @@ function Chat({ own, message, user, dbUser }: ChatProps) {
     }, 3000);
   }, [copyStatus]);
 
-  useEffect(() => {
-    const getData = async () => {
-      const data = await getCreatorProfile(state.user.userId);
+  // useEffect(() => {
+  //   const getData = async () => {
+  //     const data = await getCreatorProfile(state.user.userId);
 
-      setCreatorProfile(data);
-    };
+  //     setCreatorProfile(data);
+  //   };
 
-    getData();
-  }, [state.user.userId]);
+  //   getData();
+  // }, [state.user.userId]);
 
   return (
     <div
@@ -81,9 +81,7 @@ function Chat({ own, message, user, dbUser }: ChatProps) {
           src={`${
             message?.senderId === user.id
               ? user?.picture ?? "/no-profile-icon.png"
-              : state?.user?.photo ||
-                creatorProfile?.[0]?.image ||
-                "/no-profile-icon.png"
+              : state?.user?.photo || "/no-profile-icon.png"
           }`}
           alt="my avatar"
           height={30}
