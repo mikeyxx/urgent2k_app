@@ -83,12 +83,12 @@ function Tasks() {
 
           <p className="text-gray-600 lg:text-sm">{task.description}</p>
           <div className="flex gap-3">
-            {task.skills.map((skill, index) => (
+            {task.categories.map((category, index) => (
               <small
                 key={index}
                 className="bg-gray-300 py-1 px-4 rounded-2xl text-gray-600"
               >
-                {skill}
+                {category}
               </small>
             ))}
           </div>

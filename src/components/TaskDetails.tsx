@@ -225,16 +225,31 @@ function TaskDetails({ open, setOpen, singleTask }: TasksProps) {
               </div>
             )}
 
-            <div className="border-b pb-6">
-              <h3 className="text-lg font-bold mb-8">Skills</h3>
-              <div className="flex flex-col gap-4">
-                {singleTask?.skills.map((skill, index) => (
-                  <div key={index}>
-                    <span className="bg-gray-300 py-1 px-4 rounded-2xl text-gray-600">
-                      {skill}
-                    </span>
-                  </div>
-                ))}
+            <div className="border-b pb-6 flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold mb-8">Skills</h3>
+                <div className="flex flex-col xl:flex-row gap-4">
+                  {singleTask?.skills.map((skill, index) => (
+                    <div key={index}>
+                      <span className="bg-gray-300 py-1 px-4 rounded-2xl text-gray-600">
+                        {skill}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-lg font-bold mb-8">Category</h3>
+                <div className="flex flex-col xl:flex-row gap-4">
+                  {singleTask?.categories.map((category, index) => (
+                    <div key={index}>
+                      <span className="bg-gray-300 py-1 px-4 rounded-2xl text-gray-600">
+                        {category}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

@@ -28,7 +28,7 @@ async function Page({
 
   const isProposalSent = user && (await getSingleProposal(taskId, executorId));
 
-  const rate: ExecutorProfileDocument[] =
+  const rate: ExecutorProfileDocument =
     user && (await getExecutorProfile(user?.id));
 
   return (
@@ -37,7 +37,7 @@ async function Page({
         <Proposal
           key={task._id}
           task={task}
-          rate={rate?.[0].rate}
+          rate={rate?.rate}
           isProposalSent={isProposalSent}
         />
       ))}

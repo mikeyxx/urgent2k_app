@@ -29,9 +29,8 @@ function Proposals() {
   const [executorId, setExecutorId] = useState<string | null>(null);
   const { user, isLoading } = useKindeBrowserClient();
   const [dbUser, setDBUser] = useState<DBUser | null>(null);
-  const [executorProfile, setExecutorProfile] = useState<
-    ExecutorProfileDocument[] | null
-  >(null);
+  const [executorProfile, setExecutorProfile] =
+    useState<ExecutorProfileDocument | null>(null);
 
   const router = useRouter();
 
@@ -123,7 +122,7 @@ function Proposals() {
             [combinedId + ".userInfo"]: {
               userId: dbUser?._id,
               name: dbUser?.name,
-              photo: executorProfile?.[0]?.image,
+              photo: executorProfile?.image,
             },
             [combinedId + ".date"]: serverTimestamp(),
           });
@@ -132,7 +131,7 @@ function Proposals() {
         const messagedUser = {
           userId: dbUser?._id,
           name: dbUser?.name,
-          image: executorProfile?.[0]?.image,
+          image: executorProfile?.image,
         };
 
         const response = await fetch(`/api/create-task/${taskId}`, {

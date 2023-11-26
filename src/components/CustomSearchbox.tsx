@@ -13,12 +13,14 @@ function CustomSearchbox() {
   };
   return (
     <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
-      <p className="text-2xl xl:text-3xl">Browse through available gigs</p>
-      <div className="flex-center border rounded-xl border-primary">
+      <p className="text-2xl xl:text-3xl font-semibold">
+        Browse through available gigs
+      </p>
+      <div className="flex-center border-t-2 border-b-2 border-l-2 h-11 rounded-xl border-primary">
         <input
           type="text"
           placeholder="Search for any service"
-          className="border-0 w-full h-10 p-2 focus:outline-none focus:bg-gray-200 rounded-tl-xl text-xl rounded-bl-xl"
+          className="border-0 w-full p-2 h-full focus:outline-none focus:bg-gray-200 rounded-tl-xl text-xl rounded-bl-xl"
         />
         <button
           type="submit"
@@ -30,11 +32,13 @@ function CustomSearchbox() {
       <div className="flex flex-row items-center justify-start gap-2">
         <h3 className="font-semibold md:block hidden">Popular on Urgent2k:</h3>
         <p className="font-semibold md:hidden block">Popular:</p>
-        <p className="border border-primary hidden md:block p-1 rounded-lg">
+        <p className="border border-primary hidden md:block p-1 rounded-lg text-sm">
           PowerPoint Presentation
         </p>
-        <p className="border border-primary p-1 rounded-lg">Logo Design</p>
-        <p className="border border-primary p-1 rounded-lg">Writing</p>
+        <p className="border border-primary p-1 rounded-lg text-sm">
+          Logo Design
+        </p>
+        <p className="border border-primary p-1 rounded-lg text-sm">Writing</p>
       </div>
     </form>
   );

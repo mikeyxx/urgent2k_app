@@ -69,7 +69,7 @@ function AddPortfolio() {
     setLoading(true);
 
     try {
-      const response = await fetch(`/api/update-profile/${params.id}`, {
+      const response = await fetch(`/api/executorProfile/${params.id}`, {
         method: "PATCH",
         body: JSON.stringify({
           experiences: experiences.map((experience) => ({
@@ -276,6 +276,8 @@ function AddPortfolio() {
         + Add Project
       </button>
       <button
+        type="submit"
+        disabled={loading}
         onClick={handleSubmit}
         className="mt-5 bg-primary py-2 px-8 rounded-lg text-white place-self-center"
       >

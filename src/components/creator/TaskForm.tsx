@@ -8,9 +8,11 @@ import toast, { Toaster } from "react-hot-toast";
 import { ImAttachment } from "react-icons/im";
 import { FiImage } from "react-icons/fi";
 import Image from "next/image";
+import { title } from "process";
 
 function TaskForm() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const [img, setImg] = useState<string | null>(null);
   const [docFile, setDocFile] = useState<File | null>(null);
   const [filename, setFilename] = useState<string | null>(null);
@@ -143,6 +145,17 @@ function TaskForm() {
   };
 
   const handleSubmit = async () => {
+    if (
+      !task.title ||
+      !task.description ||
+      skillsArray.length === 0 ||
+      categories.length === 0
+    ) {
+      toast.error("Please complete all fields");
+      setError(true);
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -205,7 +218,9 @@ function TaskForm() {
                   placeholder="UI/UX Designer | Web Developer"
                   value={task.title}
                   onChange={handleChange}
-                  className="border-2 placeholder:text-sm h-9 p-2 focus:outline-primary w-full rounded-lg"
+                  className={`border-2 ${
+                    error && !task.title ? "border-red-600" : ""
+                  } placeholder:text-sm h-9 p-2 focus:outline-primary w-full rounded-lg`}
                 />
               </div>
               <div className="flex flex-col">
@@ -217,7 +232,9 @@ function TaskForm() {
                   value={task.description}
                   onChange={handleChange}
                   rows={6}
-                  className="border-2 placeholder:text-sm p-2 focus:outline-primary w-full rounded-lg"
+                  className={`border-2 ${
+                    error && !task.description ? "border-red-600" : ""
+                  } placeholder:text-sm p-2 focus:outline-primary w-full rounded-lg`}
                 ></textarea>
                 <div className="flex items-center justify-between mt-2">
                   <div className="flex w-16 items-center justify-between">
@@ -284,7 +301,13 @@ function TaskForm() {
               </div>
               <div>
                 <label htmlFor="category">Category</label>
-                <div className="border-2 h-full py-1 px-2 rounded-lg flex flex-wrap gap-3">
+                <div
+                  className={`border-2 ${
+                    error && categoriesArray.length === 0
+                      ? "border-red-600"
+                      : ""
+                  } h-full py-1 px-2 rounded-lg flex flex-wrap gap-3`}
+                >
                   {categoriesArray?.map((category, index) => (
                     <div
                       key={index}
@@ -317,7 +340,11 @@ function TaskForm() {
               </div>
               <div>
                 <label htmlFor="skills">Skills</label>
-                <div className="border-2 h-full py-1 px-2 rounded-lg flex flex-wrap gap-3">
+                <div
+                  className={`border-2 ${
+                    error && skillsArray.length === 0 ? "border-red-600" : ""
+                  } h-full py-1 px-2 rounded-lg flex flex-wrap gap-3`}
+                >
                   {skillsArray?.map((skill, index) => (
                     <div
                       key={index}
@@ -356,7 +383,11 @@ function TaskForm() {
                   onChange={handleChange}
                   type="text"
                   placeholder="50,000"
-                  className={`border-2 placeholder:text-sm h-9 p-2 focus:outline-primary w-full rounded-lg ${
+                  className={`border-2 ${
+                    error && task.pricing === "Fixed rate" && !task.budget
+                      ? "border-red-600"
+                      : ""
+                  } placeholder:text-sm h-9 p-2 focus:outline-primary w-full rounded-lg ${
                     task.payRate ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   disabled={task.payRate !== ""}
@@ -372,7 +403,11 @@ function TaskForm() {
                   onChange={handleChange}
                   type="text"
                   placeholder="250 - 500"
-                  className={`border-2 placeholder:text-sm h-9 p-2 focus:outline-primary w-full rounded-lg ${
+                  className={`border-2 ${
+                    task.pricing === "Hourly" && !task.payRate
+                      ? "border-red-600"
+                      : ""
+                  } placeholder:text-sm h-9 p-2 focus:outline-primary w-full rounded-lg ${
                     task.budget ? "opacity-50 cursor-not-allowed" : ""
                   }`}
                   disabled={task.budget !== ""}

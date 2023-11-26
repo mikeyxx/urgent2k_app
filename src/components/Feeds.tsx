@@ -10,7 +10,7 @@ async function Feeds() {
         <form className="flex justify-between border rounded-xl border-primary transition-all duration-300 w-full">
           <input
             type="text"
-            placeholder="Search for jobs"
+            placeholder="Search for tasks using title or category"
             className="border-0 w-full h-9 p-2 focus:outline-none rounded-tl-xl text-base rounded-bl-xl transition duration-300"
           />
 

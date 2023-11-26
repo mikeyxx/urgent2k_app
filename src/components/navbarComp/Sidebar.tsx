@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IoIosArrowDown,
   IoIosArrowUp,
@@ -12,6 +12,14 @@ import { MdRssFeed } from "react-icons/md";
 import { FaUserTie } from "react-icons/fa";
 import { BiMessageDetail } from "react-icons/bi";
 import { BsListTask } from "react-icons/bs";
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { DBUser } from "@/utils/lib";
+import { getDBUser } from "@/api";
+import {
+  RegisterLink,
+  LoginLink,
+  LogoutLink,
+} from "@kinde-oss/kinde-auth-nextjs/components";
 
 interface SidebarProps {
   open: boolean;
@@ -21,8 +29,18 @@ interface SidebarProps {
 function Sidebar({ open, setOpen }: SidebarProps) {
   const [dropdownOption1, setDropdownOption1] = useState(false);
   const [dropdownOption2, setDropdownOption2] = useState(false);
+  const [dbUser, setDBUser] = useState<DBUser | null>(null);
   const router = useRouter();
-  const session = true;
+  const { user, isLoading } = useKindeBrowserClient();
+
+  useEffect(() => {
+    const fetchDBUSer = async () => {
+      const data = await getDBUser(user?.id);
+      setDBUser(data);
+    };
+
+    fetchDBUSer();
+  }, [user?.id]);
 
   const handleDropdownOne = () => {
     setDropdownOption1((prev) => !prev);
@@ -34,14 +52,6 @@ function Sidebar({ open, setOpen }: SidebarProps) {
   };
 
   const handleSignUpModal = () => {
-    router.push("/api/auth/join");
-    setOpen(false);
-
-    document.body.style.overflow = "auto"; // Re-enable scrolling
-  };
-
-  const handleSignInModal = () => {
-    router.push("/api/auth/login");
     setOpen(false);
 
     document.body.style.overflow = "auto"; // Re-enable scrolling
@@ -131,13 +141,18 @@ function Sidebar({ open, setOpen }: SidebarProps) {
               </div>
             )}
           </li>
-          {!session && (
-            <li>
-              <button onClick={handleSignInModal}>Log in</button>
+          {!user && (
+            <li
+              onClick={() => {
+                setOpen(false);
+                document.body.style.overflow = "auto";
+              }}
+            >
+              <LoginLink>Log in</LoginLink>
             </li>
           )}
 
-          {session && (
+          {dbUser?.role === "executor" && (
             <>
               <li>
                 <button className="flex gap-2 items-center" onClick={goToFeeds}>
@@ -162,16 +177,16 @@ function Sidebar({ open, setOpen }: SidebarProps) {
                   <div className="relative">
                     <BiMessageDetail className="text-xl" />
 
-                    <p className="absolute top-[-8px] right-[-10px] bg-red-600 text-white h-4 w-4 rounded-full text-xs text-center">
+                    {/* <p className="absolute top-[-8px] right-[-10px] bg-red-600 text-white h-4 w-4 rounded-full text-xs text-center">
                       9
-                    </p>
+                    </p> */}
                   </div>
                   <span>Messages</span>
                 </button>
               </li>
             </>
           )}
-          {session && (
+          {dbUser?.role === "creator" && (
             <>
               <li>
                 <button
@@ -210,13 +225,13 @@ function Sidebar({ open, setOpen }: SidebarProps) {
           )}
         </ul>
 
-        {!session && (
+        {!user && (
           <div className="flex-center">
             <button
               className="bg-primary relative w-full p-[12px] rounded-xl text-white text-lg sm:text-xl"
               onClick={handleSignUpModal}
             >
-              Sign Up
+              <RegisterLink>Sign Up</RegisterLink>
             </button>
           </div>
         )}
