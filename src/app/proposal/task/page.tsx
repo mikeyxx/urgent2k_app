@@ -3,15 +3,51 @@ import { TaskDetailsProps } from "@/utils/lib";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ExecutorProfileDocument } from "@/utils/lib";
 import { getSingleProposal } from "@/api";
+import { redirect } from "next/navigation";
 
 async function getSingleTask(id: string) {
-  const res = await fetch(`http://localhost:3000/api/create-task/${id}/apply`);
-  return res.json();
+  try {
+    const res = await fetch(
+      `http://localhost:3000/api/create-task/${id}/apply`
+    );
+
+    if (!res.ok) {
+      if (res.status === 404) {
+        console.warn("Task was not found in the database");
+        return null;
+      } else {
+        console.error(`Failed to fetch task: ${res.status}`);
+
+        return null;
+      }
+    }
+    return res.json();
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 
 async function getExecutorProfile(id: string | undefined) {
-  const res = await fetch(`http://localhost:3000/api/executorProfile/${id}`);
-  return res.json();
+  try {
+    const res = await fetch(`http://localhost:3000/api/executorProfile/${id}`);
+
+    if (!res.ok) {
+      if (res.status === 404) {
+        console.warn("User profile not found in the database");
+        return null;
+      } else {
+        console.error(`Failed to fetch user data: ${res.status}`);
+
+        return null;
+      }
+    }
+    return res.json();
+  } catch (error) {
+    console.error(error);
+
+    return null;
+  }
 }
 
 async function Page({
@@ -28,8 +64,12 @@ async function Page({
 
   const isProposalSent = user && (await getSingleProposal(taskId, executorId));
 
-  const rate: ExecutorProfileDocument =
+  const executor: ExecutorProfileDocument =
     user && (await getExecutorProfile(user?.id));
+
+  if (!executor) {
+    redirect("/executor/profile/create");
+  }
 
   return (
     <section className="min-h-[calc(100vh-64px)] pt-8 pb-6 w-full max-w-[1100px] m-auto px-6 lg:px-0">
@@ -37,7 +77,7 @@ async function Page({
         <Proposal
           key={task._id}
           task={task}
-          rate={rate?.rate}
+          rate={executor?.rate}
           isProposalSent={isProposalSent}
         />
       ))}

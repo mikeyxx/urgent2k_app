@@ -115,7 +115,7 @@ function Proposal({ task, rate, isProposalSent }: ProposalProps) {
           </div>
         )}
 
-        <div className="flex lg:flex-row flex-col gap-5">
+        <div className="flex lg:flex-row flex-col w-full items-center justify-between gap-5">
           <div className="mt-12 pr-5">
             <h4>{task.title}</h4>
 

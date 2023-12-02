@@ -7,9 +7,7 @@ export const GET = async (
 ) => {
   try {
     await connectDB();
-    const res = await Proposal.find({ executorId: params.id })
-      .populate("executorId")
-      .exec();
+    const res = await Proposal.findById(params.id).exec();
 
     return new Response(JSON.stringify(res), { status: 200 });
   } catch (error) {

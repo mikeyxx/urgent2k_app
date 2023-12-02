@@ -10,6 +10,7 @@ import StarRating from "@/utils/StarRating";
 import ProposalSkeleton from "@/utils/ProposalSkeleton";
 import ActiveProposalExecutorProfile from "@/components/ActiveProposalExecutorProfile";
 import { db } from "@/firebase";
+import toast, { Toaster } from "react-hot-toast";
 import {
   getDoc,
   doc,
@@ -153,10 +154,24 @@ function Proposals() {
     }
   }
 
+  const handleCreatorList = () => {
+    toast("Oops! We are still working on this feature", {
+      icon: "😥",
+    });
+  };
+
   return (
     <>
       <div className="w-[1000px] pt-28 lg:pt-40 max-w-full min-h-[calc(100vh-64px)] px-4 pb-5 m-auto">
-        <h3 className="text-xl lg:text-2xl font-bold">Review Proposals</h3>
+        <div className="flex w-full items-center justify-between">
+          <h3 className="text-xl lg:text-2xl font-bold">Review Proposals</h3>
+          <button
+            onClick={handleCreatorList}
+            className="hover:bg-primary hover:text-white px-4 py-1 rounded-lg shadow-md"
+          >
+            Hire from your list
+          </button>
+        </div>
 
         <div className="border-2 mt-10 rounded-xl mb-7">
           <nav className="border-b-2 px-6 py-5">
@@ -229,13 +244,34 @@ function Proposals() {
                     <p>{proposal.coverLetter}</p>
                   )}
 
-                  <div className="mt-5 flex gap-5">
-                    <button className="hover:bg-primary hover:text-white px-4 py-1 rounded-lg shadow-md">
+                  {proposals.map((proposal) => (
+                    <div key={proposal._id} className="mt-5">
+                      <p>
+                        Pricing:{" "}
+                        <span>
+                          {proposal.hourlyRate ? "Hourly rate" : "Fixed rate"}
+                        </span>
+                      </p>
+                      <p>
+                        Rate:{" "}
+                        <span>
+                          ₦
+                          {proposal.hourlyRate
+                            ? proposal.hourlyRate
+                            : proposal.fixedRate}
+                          /hr
+                        </span>
+                      </p>
+                    </div>
+                  ))}
+
+                  <div className="mt-5">
+                    <Link
+                      href={`/offer/${proposal._id}`}
+                      className="hover:bg-primary hover:text-white px-4 py-1 rounded-lg shadow-md"
+                    >
                       Hire
-                    </button>
-                    <button className="hover:bg-primary hover:text-white px-4 py-1 rounded-lg shadow-md">
-                      Hire from your list
-                    </button>
+                    </Link>
                   </div>
                 </div>
 
@@ -282,6 +318,7 @@ function Proposals() {
         setOpen={setOpen}
         executorId={executorId}
       />
+      <Toaster position="top-center" reverseOrder={false} />
     </>
   );
 }

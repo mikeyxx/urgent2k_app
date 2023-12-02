@@ -8,7 +8,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { ImAttachment } from "react-icons/im";
 import { FiImage } from "react-icons/fi";
 import Image from "next/image";
-import { title } from "process";
 
 function TaskForm() {
   const [loading, setLoading] = useState(false);
@@ -460,7 +459,9 @@ function TaskForm() {
                 </select>
               </div>
               <div>
-                <label htmlFor="timeRequirement">Time Requirement</label>
+                <label htmlFor="timeRequirement">
+                  Time Requirement per day
+                </label>
                 <input
                   id="timeRequirement"
                   name="timeRequirement"
