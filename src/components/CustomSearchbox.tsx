@@ -9,7 +9,7 @@ function CustomSearchbox() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/jobs/search");
+    router.push("/tasks/search");
   };
   return (
     <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>

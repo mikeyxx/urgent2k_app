@@ -111,7 +111,7 @@ function Sidebar({ open, setOpen }: SidebarProps) {
         open && "w-[85%]"
       } transition-all duration-500 ease-in-out h-[calc(100vh-64px)] pt-8 overflow-hidden`}
     >
-      <div className="p-4 flex flex-col justify-between m-auto w-[95%] max-w-[1700px] h-full">
+      <nav className="p-4 flex flex-col justify-between m-auto w-[95%] max-w-[1700px] h-full">
         <ul
           className={`flex flex-col gap-4 opacity-0 ${
             open && "opacity-100"
@@ -235,7 +235,7 @@ function Sidebar({ open, setOpen }: SidebarProps) {
             </button>
           </div>
         )}
-      </div>
+      </nav>
     </div>
   );
 }

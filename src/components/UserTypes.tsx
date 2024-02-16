@@ -3,7 +3,7 @@ import User from "./User";
 
 function UserTypes() {
   return (
-    <section className="flex flex-col w-full max-w-[1200px] xl:ml-32 justify-between mt-20 gap-28">
+    <section className="flex flex-col w-full justify-between mt-20 gap-28">
       <User
         imageString="/add_notes_green.svg"
         imageAlt="Create"

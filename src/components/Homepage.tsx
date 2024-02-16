@@ -1,13 +1,12 @@
 import React from "react";
 import CustomSearchbox from "./CustomSearchbox";
 import Image from "next/image";
-import Link from "next/link";
 import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 function Homepage() {
   return (
-    <section className="mt-[70px] md:mt-8 xl:ml-32 px-4 w-full flex flex-col-reverse xl:flex-row text-black justify-between h-full gap-20 xl:gap-0">
-      <div className="flex-center flex-col gap-32 xl:w-[900px]">
+    <section className="mt-[70px] md:mt-8 px-4 w-full flex flex-col-reverse xl:flex-row text-black justify-between h-[100dvh-64px] gap-28 xl:gap-0">
+      <div className="flex-center flex-col gap-32 grow h-full">
         <div className="bg-primary w-full flex-center flex-col rounded-full h-[220px] gap-4">
           <h1 className="place-self-center text-3xl xl:text-4xl text-white">
             Need Cash?
@@ -22,15 +21,15 @@ function Homepage() {
         <CustomSearchbox />
       </div>
 
-      <div className="flex w-full items-center justify-center">
+      <div className="flex grow items-center justify-center">
         <Image
           quality={100}
           src="https://res.cloudinary.com/talentql-inc/image/upload/v1700450597/talentql/bubble_hero_image_txypkx.png"
           alt=""
-          width={300}
-          height={30}
-          objectFit="contain"
-          className="inline-block w-[350px] xl:w-[600px] object-cover"
+          width={550}
+          height={300}
+          objectFit="cover"
+          className="basis-auto object-cover"
         />
       </div>
     </section>

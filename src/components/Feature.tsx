@@ -3,8 +3,7 @@ import React from "react";
 
 function Feature() {
   return (
-    <section className="max-w-[1200px] xl:ml-32 justify-between">
-      <div className="flex-center gap-16 xl:gap-32 flex-col-reverse xl:flex-row p-4 mt-20">
+    <section className="flex items-center justify-between gap-28 flex-col-reverse xl:flex-row p-4 mt-20">
         <div className="flex flex-col gap-16">
           <h2 className="uppercase font-bold text-2xl xl:text-3xl">
             top freelance platform in Africa
@@ -37,7 +36,6 @@ function Feature() {
           </div>
         </div>
         <Image src="/collaboration.svg" alt="" width={400} height="400" />
-      </div>
     </section>
   );
 }

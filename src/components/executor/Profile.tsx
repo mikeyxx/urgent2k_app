@@ -70,17 +70,20 @@ function Profile() {
     };
 
     fetchData();
-  }, [pathname, params.id, user?.id, acceptedProposal]);
+  }, [pathname, params.id, user, acceptedProposal]);
 
-  if (executorProfile === null) {
-    return (
-      <>
-        <ProfileSkeleton />
-      </>
-    );
-  }
+  console.log("ExecutorP:",executorProfile)
+  
+  // if (executorProfile === null) {
+  //   return (
+  //     <>
+  //       <ProfileSkeleton />
+  //     </>
+  //   );
+  // }
 
-  const handleProfileUpdate = (executorProfile: ExecutorProfileDocument) => {
+
+  const handleProfileUpdate = (executorProfile: ExecutorProfileDocument | null) => {
     setEditedState(executorProfile);
 
     router.push("/executor/profile/update");
@@ -94,9 +97,9 @@ function Profile() {
             <div className="relative">
               <Image
                 src={
-                  executorProfile.image ||
+                  executorProfile?.image ||
                   user?.picture ||
-                  "no-profile-icon.png"
+                  "/no-profile-icon.png"
                 }
                 alt="profile picture"
                 width={100}
@@ -139,7 +142,7 @@ function Profile() {
           </div>
           <div className="border-b-2 w-full text-center pb-3 mt-8">
             <h4>Your rate per hour</h4>
-            <small className="text-primary">₦{executorProfile.rate}</small>
+            <small className="text-primary">₦{executorProfile?.rate}</small>
           </div>
 
           <div className="mt-8 w-full flex flex-col items-center justify-center">
@@ -350,7 +353,7 @@ function Profile() {
               </span>
             </div>
 
-            {executorProfile.experiences.length > 0 ? (
+            {executorProfile?.experiences && executorProfile?.experiences.length > 0 ? (
               <div className="flex flex-wrap gap-[20px]">
                 {executorProfile?.experiences?.map((xperience, index) => (
                   <div
@@ -390,7 +393,7 @@ function Profile() {
               </span>
             </div>
 
-            {executorProfile.certifications.length > 0 ? (
+            {executorProfile?.certifications && executorProfile?.certifications.length > 0 ? (
               <div className="flex flex-wrap gap-[20px]">
                 {executorProfile?.certifications?.map((cert, index) => (
                   <div
@@ -426,7 +429,7 @@ function Profile() {
                 <HiOutlineInformationCircle />
               </span>
             </div>
-            {executorProfile.projects.length > 0 ? (
+            {executorProfile?.projects && executorProfile.projects.length > 0 ? (
               <div className="flex flex-wrap gap-[20px]">
                 {executorProfile?.projects?.map((project, index) => (
                   <Link

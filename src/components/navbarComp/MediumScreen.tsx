@@ -12,6 +12,7 @@ import {
 import {
   RegisterLink,
   LoginLink,
+  LogoutLink
 } from "@kinde-oss/kinde-auth-nextjs/components";
 
 interface MediumScreenProps {
@@ -89,10 +90,12 @@ function MediumScreen({
                     {dbUser?.role}
                   </small>
                 </div>
+                <LogoutLink>
                 <div className="flex items-center font-medium text-base gap-3 mt-10 cursor-pointer">
                   <RiLogoutCircleLine />
                   <p>Log out</p>
                 </div>
+                </LogoutLink>
               </div>
             )}
           </div>
@@ -129,10 +132,12 @@ function MediumScreen({
                     {dbUser?.role}
                   </small>
                 </div>
+                <LogoutLink>
                 <div className="flex items-center font-medium text-base gap-3 mt-10 cursor-pointer">
                   <RiLogoutCircleLine />
                   <p>Log out</p>
                 </div>
+                </LogoutLink>
               </div>
             )}
           </div>
