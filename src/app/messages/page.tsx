@@ -10,8 +10,10 @@ async function Page() {
   const user = await getUser();
   const dbUser = await getDBUser(user?.id);
 
+  const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://urgent2k-app.vercel.app"
+
   if (!user) {
-    redirect("/api/auth/login?post_login_redirect_url=/messages");
+    redirect(`${baseUrl}/api/auth/login?post_login_redirect_url=/messages`);
   }
 
   return (

@@ -9,14 +9,16 @@ async function Page() {
   const dbUser = await getDBUser(user?.id);
   const profile = await getExecutorProfile(user?.id);
 
+  const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://urgent2k-app.vercel.app"
+
   if (!user && !dbUser.role) {
     redirect(
-      "/api/auth/login?post_login_redirect_url=/executor/profile/create"
+      `${baseUrl}/api/auth/login?post_login_redirect_url=/executor/profile/create`
     );
   }
 
   if (!profile) {
-    redirect("/executor/profile/create?callbackUrl=/executor/profile");
+    redirect(`${baseUrl}/executor/profile/create?callbackUrl=/executor/profile`);
   }
 
   return (

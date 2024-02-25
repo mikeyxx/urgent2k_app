@@ -30,17 +30,19 @@ export async function GET() {
   // Check if user chat has been initialized in firebase
   const res = await getDoc(doc(db, "conversations", user.id));
 
+  const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://urgent2k-app.vercel.app"
+
   if (!res.exists()) {
     await setDoc(doc(db, "conversations", user.id), {});
   }
 
   if (!dbUser?.role) {
-    return NextResponse.redirect("http://localhost:3000/user/role");
+    return NextResponse.redirect(`${baseUrl}/user/role`);
   }
 
   if (dbUser?.role === "creator") {
-    return NextResponse.redirect("http://localhost:3000/creator/active-tasks");
+    return NextResponse.redirect(`${baseUrl}/creator/active-tasks`);
   } else {
-    return NextResponse.redirect("http://localhost:3000/executor/feed");
+    return NextResponse.redirect(`${baseUrl}/executor/feed`);
   }
 }

@@ -12,11 +12,13 @@ export default async function Home() {
   const user = await getUser();
   const dbUser: DBUser = await getDBUser(user?.id);
 
+  const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://urgent2k-app.vercel.app"
+
   if (user && dbUser.role === "creator") {
-    redirect("/creator/active-tasks");
+    redirect(`${baseUrl}/creator/active-tasks`);
   }
   if (user && dbUser.role === "executor") {
-    redirect("/executor/feed");
+    redirect(`${baseUrl}/executor/feed`);
   }
   return (
     <section>

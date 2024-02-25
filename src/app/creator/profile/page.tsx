@@ -10,12 +10,15 @@ async function Page() {
   const dbUser = await getDBUser(user?.id);
   const profile = await getCreatorProfile(user?.id);
 
+  const baseUrl = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://urgent2k-app.vercel.app"
+
+
   if (!user && !dbUser.role) {
-    redirect("/api/auth/login?post_login_redirect_url=/creator/profile");
+    redirect(`${baseUrl}/api/auth/login?post_login_redirect_url=/creator/profile`);
   }
 
   if (!profile) {
-    redirect("/creator/profile/create");
+    redirect(`${baseUrl}/creator/profile/create`);
   }
 
   return (
